@@ -98,8 +98,6 @@ const App = () => {
               autoFocus
             />
           </div>
-          <br />
-          <Button onClick={checkInput} />
           <ul className="format-list">
             {formats.map(format => {
               return (
@@ -119,6 +117,7 @@ const App = () => {
               );
             })}
           </ul>
+          <Button onClick={checkInput} />
         </section>
         {currentVideoInfo && (
           <section className="downloading-section">
