@@ -1,4 +1,5 @@
 import React from "react";
+import he from "he";
 
 interface ICardProps {
   title: string;
@@ -14,7 +15,7 @@ const Card = ({ title, videoId, description, thumbnailUrl, handleDownload }: ICa
       <div className="card">
         <a href={`https://youtube.com/watch?v=${videoId}`} rel="noopener noreferrer" target="_blank">
           <div className="image" style={{ backgroundImage: `url(${thumbnailUrl})` }}></div>
-          <div className="title">{title}</div>
+          <div className="title">{he.decode(title)}</div>
         </a>
         <button onClick={() => handleDownload(videoId)} className="download">
           Download
