@@ -7,8 +7,13 @@ export const API = axios.create({
 });
 
 export const getSuggestions = async searchQuery => {
-  const { data } = await API.get(`/suggestions?search=${searchQuery}`);
-  return data;
+  try {
+    const response = await API.get(`/suggestions?search=${searchQuery}`);
+    const { data } = response;
+    return data;
+  } catch (error) {
+    console.log(error.response.data);
+  }
 };
 
 export const getInfos = async url => {

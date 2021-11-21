@@ -4,6 +4,7 @@ import Button from "./components/Button";
 import Card from "./components/Card";
 import { getInfos, getSuggestions } from "./utils/API";
 import { getDownloadUrl, isYtUrl } from "./utils/helpers";
+import { ProgressBar } from "react-bootstrap";
 
 const formats = [
   {
@@ -46,11 +47,13 @@ const App = () => {
   };
 
   const fetchSuggestions = async () => {
-    const { data, success } = await getSuggestions(inputText);
-    if (success) {
-      setSuggestions(data);
-      setCurrentVideoInfo(undefined);
-    }
+    try {
+      const { data, success } = await getSuggestions(inputText);
+      if (success) {
+        setSuggestions(data);
+        setCurrentVideoInfo(undefined);
+      }
+    } catch (err) {}
   };
 
   const download = async (videoId: string) => {
@@ -82,6 +85,9 @@ const App = () => {
   return (
     <>
       <main className="container">
+        <div className="col-12 mt-2">
+          <ProgressBar striped variant="success" now={40} label="Initializing . . ." style={{ width: "1000px", height: "20px" }} />
+        </div>
         <section className="search-section">
           <div className={`input-container ${focus ? "animate" : ""}`}>
             <input
@@ -123,6 +129,7 @@ const App = () => {
           <section className="downloading-section">
             <div>
               <h2>{currentVideoInfo.title}</h2>
+              <br />
               <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
             </div>
           </section>
