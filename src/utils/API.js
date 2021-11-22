@@ -33,14 +33,6 @@ export const downloadFileFromUrl = async (videoDownloadUrl, uid) => {
       method: "POST",
       responseType: "blob",
       data: { uid: uid },
-      proxy: {
-        host: "127.0.0.1",
-        port: 9000,
-        auth: {
-          username: "mikeymike",
-          password: "rapunz3l",
-        },
-      },
     }).then(response => {
       const fileName = extractFileName(response.headers["content-disposition"]);
       const url = window.URL.createObjectURL(new Blob([response.data]));
