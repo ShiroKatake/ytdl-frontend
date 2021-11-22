@@ -31,6 +31,21 @@ const extractFileName = str => {
   return regex.exec(str)[1];
 };
 
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
+const isUid = str => {
+  const regex = /[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}/g;
+  const res = str.match(regex);
+  return res ? res[0] : null;
+};
+
 // Create WebSocket connection.
 const socket = new WebSocket(`ws://${host.replace(/^https?:\/\//i, "")}`);
 
@@ -38,8 +53,12 @@ let uid = "";
 
 // Listen for messages
 socket.addEventListener("message", function (event) {
-  uid = event.data;
-  console.log("Message from server ", uid);
+  if (isUid(event.data)) {
+    uid = isUid(event.data);
+  }
+  if (isJson(event.data)) {
+  }
+  console.log("Message from server ", event.data);
 });
 
 export const downloadFileFromUrl = async videoDownloadUrl => {
