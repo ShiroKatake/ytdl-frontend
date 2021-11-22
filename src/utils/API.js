@@ -31,12 +31,25 @@ const extractFileName = str => {
   return regex.exec(str)[1];
 };
 
+// Create WebSocket connection.
+const socket = new WebSocket(`ws://${host.replace(/^https?:\/\//i, "")}`);
+
+let uid = "";
+
+// Listen for messages
+socket.addEventListener("message", function (event) {
+  uid = event.data;
+  console.log("Message from server ", uid);
+});
+
 export const downloadFileFromUrl = async videoDownloadUrl => {
   try {
+    socket.send(uid);
     axios({
       url: videoDownloadUrl,
-      method: "GET",
+      method: "POST",
       responseType: "blob",
+      data: { uid: uid },
       onDownloadProgress: progressEvent => {
         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         console.log(progressEvent.lengthComputable);
