@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Button from "./components/Button";
 import Card from "./components/Card";
-import { getInfos, getSuggestions } from "./utils/API";
+import { getInfos, getSuggestions, downloadFileFromUrl } from "./utils/API";
 import { getDownloadUrl, isYtUrl } from "./utils/helpers";
-import { ProgressBar } from "react-bootstrap";
+// import { ProgressBar } from "react-bootstrap";
 
 const formats = [
   {
@@ -28,15 +28,11 @@ const formats = [
 
 const App = () => {
   const [inputText, setInputText] = useState("");
-  const [downloadUrl, setDownloadUrl] = useState("");
   const [downloadFormat, setDownloadFormat] = useState("mp4");
   const [suggestions, setSuggestions] = useState<any>([]);
   const [downloads, setDownloads] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
   const [focus, setFocus] = useState(false);
-
-  const hiddenDownloadBtn = useRef<HTMLAnchorElement>(null);
-  const isFirstRun = useRef(true);
 
   const checkInput = () => {
     if (isYtUrl(inputText)) {
@@ -67,27 +63,16 @@ const App = () => {
         videoId: data.videoDetails.videoId,
       };
 
-      setDownloadUrl(downloadUrl);
       setCurrentVideoInfo(data.videoDetails);
       setDownloads([...downloads, videoInfo]);
+      downloadFileFromUrl(downloadUrl);
+      console.log("Starting download . . .");
     }
   };
-
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-    hiddenDownloadBtn.current?.click();
-    console.log("download");
-  }, [downloadUrl, downloads]);
 
   return (
     <>
       <main className="container">
-        <div className="col-12 mt-2">
-          <ProgressBar striped variant="success" now={40} label="Initializing . . ." style={{ width: "1000px", height: "20px" }} />
-        </div>
         <section className="search-section">
           <div className={`input-container ${focus ? "animate" : ""}`}>
             <input
@@ -104,6 +89,8 @@ const App = () => {
               autoFocus
             />
           </div>
+          <br />
+          {/* <ProgressBar striped variant="success" now={40} label="Initializing . . ." style={{ width: "85%", height: "20px" }} /> */}
           <ul className="format-list">
             {formats.map(format => {
               return (
@@ -154,9 +141,6 @@ const App = () => {
         </section>
       </main>
       <footer className="footer"></footer>
-      <a href={downloadUrl} download className="hidden" ref={hiddenDownloadBtn}>
-        {downloadUrl}
-      </a>
     </>
   );
 };
