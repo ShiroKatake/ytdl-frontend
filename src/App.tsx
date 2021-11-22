@@ -30,7 +30,6 @@ const App = () => {
   const [inputText, setInputText] = useState("");
   const [downloadFormat, setDownloadFormat] = useState("mp4");
   const [suggestions, setSuggestions] = useState<any>([]);
-  const [downloads, setDownloads] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
   const [focus, setFocus] = useState(false);
 
@@ -58,13 +57,8 @@ const App = () => {
     const { data, success } = await getInfos(videoUrl);
     if (success) {
       const downloadUrl = getDownloadUrl(videoUrl, downloadFormat);
-      const videoInfo = {
-        title: data.videoDetails.title,
-        videoId: data.videoDetails.videoId,
-      };
 
       setCurrentVideoInfo(data.videoDetails);
-      setDownloads([...downloads, videoInfo]);
       downloadFileFromUrl(downloadUrl);
       console.log("Starting download . . .");
     }
