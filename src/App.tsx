@@ -181,7 +181,7 @@ const App = () => {
               );
             })}
           </ul>
-          <Button onClick={checkInput} />
+          <Button disabled={!hidden} onClick={checkInput} />
         </section>
         {currentVideoInfo && (
           <section className="downloading-section">

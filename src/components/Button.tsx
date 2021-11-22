@@ -1,11 +1,12 @@
 interface IButtonProps {
   onClick: () => void;
+  disabled: boolean;
 }
 
-const Button = ({ onClick }: IButtonProps) => {
+const Button = ({ disabled, onClick }: IButtonProps) => {
   return (
     <>
-      <button className="btn-animate" onClick={onClick}>
+      <button disabled={disabled} className="btn-animate" onClick={onClick}>
         Search
       </button>
     </>
