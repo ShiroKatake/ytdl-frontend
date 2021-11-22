@@ -28,7 +28,7 @@ export const getInfos = async url => {
 
 export const downloadFileFromUrl = async (videoDownloadUrl, uid) => {
   try {
-    axios({
+    await axios({
       url: videoDownloadUrl,
       method: "POST",
       responseType: "blob",

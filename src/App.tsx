@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Button from "./components/Button";
 import Card from "./components/Card";
@@ -58,6 +58,7 @@ const App = () => {
   };
 
   const download = async (videoId: string) => {
+    setHidden(false);
     const videoUrl = videoId || inputText;
     if (!videoUrl) return;
     const { data, success } = await getInfos(videoUrl);
@@ -79,7 +80,6 @@ const App = () => {
           setDownloadProgress((downloadProgress.downloaded / downloadProgress.total) * 100);
           setDownloaded(downloadProgress.downloaded);
           setTotalSize(downloadProgress.total);
-          setHidden(false);
         }
       });
 
@@ -95,19 +95,14 @@ const App = () => {
       }
 
       setCurrentVideoInfo(data.videoDetails);
-      downloadFileFromUrl(downloadUrl, uid);
       console.log("Starting download . . .");
-    }
-  };
-
-  useEffect(() => {
-    if (downloadProgress === 100) {
+      await downloadFileFromUrl(downloadUrl, uid);
       setTimeout(() => {
         setHidden(true);
         setDownloadProgress(0);
-      }, 5000);
+      }, 4000);
     }
-  }, [downloadProgress]);
+  };
 
   return (
     <>
