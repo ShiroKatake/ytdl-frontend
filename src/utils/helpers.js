@@ -10,9 +10,9 @@ export const secondsToMinutes = time => {
 
 export const isYtUrl = url => {
   const ytRegex = new RegExp(
-    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})?(?:&ab\_channel=(\w|-)*)(\?\S*)?$/
+    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:\?\S*)?$/
   );
-  return ytRegex.test(url);
+  return ytRegex.test(url); //Change to .match() to debug
 };
 
 export const changeFormatStorage = format => {

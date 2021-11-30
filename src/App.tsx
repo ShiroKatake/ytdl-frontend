@@ -66,7 +66,7 @@ const App = () => {
       const downloadUrl = getDownloadUrl(videoUrl, downloadFormat);
 
       // Create WebSocket connection.
-      const socket = new WebSocket(`wss://${host.replace(/^https?:\/\//i, "")}`);
+      const socket = new WebSocket(`${host.replace(/^https?/i, "wss")}`);
 
       let uid = "";
 
