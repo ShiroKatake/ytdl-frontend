@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/ytdl-frontend/static/css/main.2df5a7ef.chunk.css",
-    "main.js": "/ytdl-frontend/static/js/main.ba39137f.chunk.js",
-    "main.js.map": "/ytdl-frontend/static/js/main.ba39137f.chunk.js.map",
+    "main.js": "/ytdl-frontend/static/js/main.cdb1b7d9.chunk.js",
+    "main.js.map": "/ytdl-frontend/static/js/main.cdb1b7d9.chunk.js.map",
     "runtime-main.js": "/ytdl-frontend/static/js/runtime-main.9d8c5bbf.js",
     "runtime-main.js.map": "/ytdl-frontend/static/js/runtime-main.9d8c5bbf.js.map",
     "static/js/2.7a316aee.chunk.js": "/ytdl-frontend/static/js/2.7a316aee.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.9d8c5bbf.js",
     "static/js/2.7a316aee.chunk.js",
     "static/css/main.2df5a7ef.chunk.css",
-    "static/js/main.ba39137f.chunk.js"
+    "static/js/main.cdb1b7d9.chunk.js"
   ]
 }
