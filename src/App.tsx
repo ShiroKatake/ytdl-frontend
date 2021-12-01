@@ -166,15 +166,14 @@ const App = () => {
           {!!suggestions.length && <h1>Suggestions</h1>}
           <div className="grid">
             {suggestions.map((video: any) => {
-              const { snippet: s } = video;
               return (
                 <Card
-                  key={video.id.videoId}
-                  title={s.title}
-                  videoId={video.id.videoId}
-                  description={s.description}
-                  thumbnailUrl={s.thumbnails.medium.url}
-                  handleDownload={() => download(video.id.videoId)}
+                  key={video.id}
+                  author={video.author.name}
+                  title={video.title}
+                  videoId={video.id}
+                  thumbnailUrl={video.bestThumbnail.url}
+                  handleDownload={() => download(video.id)}
                 />
               );
             })}

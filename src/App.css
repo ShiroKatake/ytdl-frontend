@@ -293,10 +293,9 @@ input[type="radio"]:checked + .radio-label:before {
 }
 
 .card .image {
-  min-height: 180px;
-  min-width: 320px;
-  max-height: 180px;
-  max-width: 320px;
+  height: 140px;
+  width: 250px;
+  background-size: contain;
 }
 
 .card .title {
