@@ -1,15 +1,27 @@
-.btn-animate {
-  position: relative;
+.btn-animate.main {
   padding: 15px 50px;
-  border: none;
-  border-radius: 8px;
   box-shadow: 0px 16px 20px -15px #355c7d;
-  cursor: pointer;
-  color: #fff;
-  background: none;
   font-size: 24px;
   font-weight: 600;
   letter-spacing: 2px;
+}
+
+.btn-animate:not(.main) {
+  height: 3rem;
+  width: 85%;
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.btn-animate {
+  position: relative;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background: none;
   overflow: hidden;
   transform: translateZ(0);
   transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);

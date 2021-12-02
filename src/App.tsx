@@ -20,26 +20,27 @@ const App = () => {
   const [totalSize, setTotalSize] = useState(1);
 
   const checkInput = async () => {
-    setIsLoading(true);
     if (isYtUrl(inputText)) {
       await download(inputText);
     } else {
       await fetchSuggestions();
     }
-    setIsLoading(false);
   };
 
   const fetchSuggestions = async () => {
     try {
+      setIsLoading(true);
       const { data, success } = await getSuggestions(inputText);
       if (success) {
         setSuggestions(data);
         setCurrentVideoInfo(undefined);
       }
+      setIsLoading(false);
     } catch (err) {}
   };
 
   const download = async (videoId: string) => {
+    setIsLoading(true);
     setHidden(false);
     const videoUrl = videoId || inputText;
     if (!videoUrl) return;
@@ -79,10 +80,11 @@ const App = () => {
       setCurrentVideoInfo(data.videoDetails);
       console.log("Starting download . . .");
       await downloadFileFromUrl(downloadUrl, uid);
+      setIsLoading(false);
       setTimeout(() => {
         setHidden(true);
         setDownloadProgress(0);
-      }, 4000);
+      }, 5000);
     }
   };
 
@@ -99,7 +101,9 @@ const App = () => {
           style={{ width: "85%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
-        <Button isLoading={isLoading} onClick={checkInput} />
+        <Button main isLoading={isLoading} onClick={checkInput}>
+          Search
+        </Button>
       </section>
       {currentVideoInfo && (
         <section className="downloading-section">
@@ -117,6 +121,7 @@ const App = () => {
             return (
               <Card
                 key={video.id}
+                isLoading={isLoading}
                 author={video.author.name}
                 title={video.title}
                 videoId={video.id}
