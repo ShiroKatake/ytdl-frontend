@@ -1,0 +1,63 @@
+input {
+  outline: none;
+  border: 0;
+}
+
+.input-container {
+  height: 65px;
+  width: 85%;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.input-container [type="text"] {
+  height: 65px;
+  width: calc(100% - 36px);
+  padding-left: 18px;
+  caret-color: #000;
+  color: #52de97;
+  font-size: 18px;
+  letter-spacing: 2px;
+  background: transparent;
+}
+
+.input-container.animate {
+  -webkit-animation: stretch-animation 800ms ease;
+  animation: stretch-animation 800ms ease;
+}
+
+@-webkit-keyframes stretch-animation {
+  0% {
+    transform: scale(1, 1);
+  }
+  10% {
+    transform: scale(1.02, 0.98);
+  }
+  30% {
+    transform: scale(0.98, 1.02);
+  }
+  50% {
+    transform: scale(1.02, 0.98);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes stretch-animation {
+  0% {
+    transform: scale(1, 1);
+  }
+  10% {
+    transform: scale(1.02, 0.98);
+  }
+  30% {
+    transform: scale(0.98, 1.02);
+  }
+  50% {
+    transform: scale(1.02, 0.98);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}

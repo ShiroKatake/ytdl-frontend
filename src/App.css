@@ -23,13 +23,6 @@ body {
   }
 }
 
-.search-section {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-
 a {
   text-decoration: none;
   color: aliceblue;
@@ -39,74 +32,17 @@ a:hover {
   text-decoration: underline;
 }
 
-.input-container {
-  height: 65px;
-  width: 85%;
-  border-radius: 10px;
-  background: #fff;
-}
-
-.input-container [type="text"] {
-  height: 65px;
-  width: calc(100% - 36px);
-  padding-left: 18px;
-  caret-color: #000;
-  color: #52de97;
-  font-size: 18px;
-  letter-spacing: 2px;
-  background: transparent;
-}
-
-.input-container.animate {
-  -webkit-animation: stretch-animation 800ms ease;
-  animation: stretch-animation 800ms ease;
-}
-
-@-webkit-keyframes stretch-animation {
-  0% {
-    transform: scale(1, 1);
-  }
-  10% {
-    transform: scale(1.02, 0.98);
-  }
-  30% {
-    transform: scale(0.98, 1.02);
-  }
-  50% {
-    transform: scale(1.02, 0.98);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
-
-@keyframes stretch-animation {
-  0% {
-    transform: scale(1, 1);
-  }
-  10% {
-    transform: scale(1.02, 0.98);
-  }
-  30% {
-    transform: scale(0.98, 1.02);
-  }
-  50% {
-    transform: scale(1.02, 0.98);
-  }
-  100% {
-    transform: scale(1, 1);
-  }
-}
-
-input {
-  outline: none;
-  border: 0;
-}
-
 .hidden {
   display: none;
   opacity: 0;
   visibility: hidden;
+}
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .suggestions-section {
@@ -215,33 +151,6 @@ button.download:hover {
   -webkit-animation-iteration-count: 1;
   animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
-}
-
-.sidebar {
-  position: fixed;
-  right: 0px;
-  height: 100vh;
-  background: #fa6c98;
-  max-width: 250px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  overflow-y: auto;
-  height: 100%;
-}
-
-.sidebar li {
-  padding: 1em 0.5em;
-  display: flex;
-  align-items: flex-start;
-}
-
-.sidebar li .title {
-  text-overflow: ellipsis;
-  max-width: 100%;
-  overflow: hidden;
-  padding-left: 0.3em;
 }
 
 .downloading-section {

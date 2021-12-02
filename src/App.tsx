@@ -1,18 +1,16 @@
 import { useState } from "react";
 import "./App.css";
-import Button from "./components/Button/Button";
+import { Button, FormatList, TextInput } from "./components";
 import Card from "./components/Card";
 import { getInfos, getSuggestions, downloadFileFromUrl } from "./utils/API";
 import { host, isYtUrl, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
-import { FormatList } from "./components/FormatList/FormatList";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
   const [downloadFormat, setDownloadFormat] = useState("mp4");
   const [suggestions, setSuggestions] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
-  const [focus, setFocus] = useState(false);
 
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [hidden, setHidden] = useState(true);
@@ -88,21 +86,7 @@ const App = () => {
   return (
     <>
       <section className="search-section">
-        <div className={`input-container ${focus ? "animate" : ""}`}>
-          <input
-            type="text"
-            name="input"
-            id="text"
-            placeholder="Search or paste url"
-            spellCheck={false}
-            autoComplete="off"
-            onBlur={() => setFocus(false)}
-            onFocus={() => setFocus(true)}
-            value={inputText}
-            onChange={e => setInputText(e.target.value)}
-            autoFocus
-          />
-        </div>
+        <TextInput inputText={inputText} setInputText={setInputText} />
         <ProgressBar
           hidden={hidden}
           striped

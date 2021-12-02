@@ -5,14 +5,10 @@ interface IButtonProps {
   disabled: boolean;
 }
 
-const Button = ({ disabled, onClick }: IButtonProps) => {
+export const Button = ({ disabled, onClick }: IButtonProps) => {
   return (
-    <>
-      <button disabled={disabled} className="btn-animate" onClick={onClick}>
-        Search
-      </button>
-    </>
+    <button disabled={disabled} className="btn-animate" onClick={onClick}>
+      Search
+    </button>
   );
 };
-
-export default Button;
