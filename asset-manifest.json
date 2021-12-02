@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/ytdl-frontend/static/css/main.11178138.chunk.css",
-    "main.js": "/ytdl-frontend/static/js/main.69d570a5.chunk.js",
-    "main.js.map": "/ytdl-frontend/static/js/main.69d570a5.chunk.js.map",
+    "main.css": "/ytdl-frontend/static/css/main.0c722ec0.chunk.css",
+    "main.js": "/ytdl-frontend/static/js/main.1d19c6cf.chunk.js",
+    "main.js.map": "/ytdl-frontend/static/js/main.1d19c6cf.chunk.js.map",
     "runtime-main.js": "/ytdl-frontend/static/js/runtime-main.3b31b587.js",
     "runtime-main.js.map": "/ytdl-frontend/static/js/runtime-main.3b31b587.js.map",
     "static/js/2.eef8455c.chunk.js": "/ytdl-frontend/static/js/2.eef8455c.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.7f196691.chunk.js": "/ytdl-frontend/static/js/3.7f196691.chunk.js",
     "static/js/3.7f196691.chunk.js.map": "/ytdl-frontend/static/js/3.7f196691.chunk.js.map",
     "index.html": "/ytdl-frontend/index.html",
-    "static/css/main.11178138.chunk.css.map": "/ytdl-frontend/static/css/main.11178138.chunk.css.map",
+    "static/css/main.0c722ec0.chunk.css.map": "/ytdl-frontend/static/css/main.0c722ec0.chunk.css.map",
     "static/js/2.eef8455c.chunk.js.LICENSE.txt": "/ytdl-frontend/static/js/2.eef8455c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.3b31b587.js",
     "static/js/2.eef8455c.chunk.js",
-    "static/css/main.11178138.chunk.css",
-    "static/js/main.69d570a5.chunk.js"
+    "static/css/main.0c722ec0.chunk.css",
+    "static/js/main.1d19c6cf.chunk.js"
   ]
 }
