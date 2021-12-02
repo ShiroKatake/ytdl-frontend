@@ -60,7 +60,7 @@ const App = () => {
         }
         if (isJson(event.data)) {
           const downloadProgress = JSON.parse(event.data);
-          setDownloadProgress((downloadProgress.downloaded / downloadProgress.total) * 100);
+          setDownloadProgress((downloadProgress.downloaded / downloadProgress.total) * 75);
           setDownloaded(downloadProgress.downloaded);
           setTotalSize(downloadProgress.total);
         }
@@ -79,13 +79,24 @@ const App = () => {
 
       setCurrentVideoInfo(data.videoDetails);
       console.log("Starting download . . .");
-      await downloadFileFromUrl(downloadUrl, uid);
+      await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress);
       setIsLoading(false);
       setTimeout(() => {
         setHidden(true);
         setDownloadProgress(0);
       }, 5000);
     }
+  };
+
+  const progressText = (downloadProgress: number) => {
+    let text = "Fetching . . .";
+    if (downloadProgress > 75) {
+      text = "Preparing download . . .";
+    }
+    if (downloadProgress === 100) {
+      text = "Ready!";
+    }
+    return text;
   };
 
   return (
@@ -97,7 +108,7 @@ const App = () => {
           striped
           variant="success"
           now={downloadProgress}
-          label={`${downloadProgress !== 100 ? "Fetching . . ." : "Ready! "} ${toMB(downloaded)}MB /${toMB(totalSize)}MB`}
+          label={`${progressText(downloadProgress)} ${toMB(downloaded)}MB /${toMB(totalSize)}MB`}
           style={{ width: "85%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />

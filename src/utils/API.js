@@ -26,13 +26,18 @@ export const getInfos = async url => {
   }
 };
 
-export const downloadFileFromUrl = async (videoDownloadUrl, uid) => {
+export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProgress) => {
   try {
     await axios({
       url: videoDownloadUrl,
       method: "POST",
       responseType: "blob",
       data: { uid: uid },
+      onDownloadProgress: progressEvent => {
+        let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
+        setDownloadProgress(percentCompleted);
+        console.log(percentCompleted);
+      },
     }).then(response => {
       const fileName = extractFileName(response.headers["content-disposition"]);
       const url = window.URL.createObjectURL(new Blob([response.data]));
