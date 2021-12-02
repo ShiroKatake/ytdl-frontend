@@ -5,26 +5,7 @@ import Card from "./components/Card";
 import { getInfos, getSuggestions, downloadFileFromUrl } from "./utils/API";
 import { host, isYtUrl, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
-
-const formats = [
-  {
-    id: "mp4",
-    name: "mp4",
-    isChecked: true,
-  },
-  {
-    id: "mp3",
-    name: "mp3",
-  },
-  {
-    id: "mov",
-    name: "mov",
-  },
-  {
-    id: "flv",
-    name: "flv",
-  },
-];
+import { FormatList } from "./components/FormatList/FormatList";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
@@ -122,7 +103,6 @@ const App = () => {
             autoFocus
           />
         </div>
-        <br hidden={hidden} />
         <ProgressBar
           hidden={hidden}
           striped
@@ -131,25 +111,7 @@ const App = () => {
           label={`${downloadProgress !== 100 ? "Fetching . . ." : "Ready! "} ${toMB(downloaded)}MB /${toMB(totalSize)}MB`}
           style={{ width: "85%", height: "30px", lineHeight: "30px" }}
         />
-        <ul className="format-list">
-          {formats.map(format => {
-            return (
-              <li key={format.id}>
-                <input
-                  type="radio"
-                  id={format.id}
-                  name="format"
-                  checked={downloadFormat === format.id}
-                  value={format.name}
-                  onChange={e => setDownloadFormat(e.target.value)}
-                />
-                <label htmlFor={format.id} className="radio-label">
-                  {format.name}
-                </label>
-              </li>
-            );
-          })}
-        </ul>
+        <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
         <Button disabled={!hidden} onClick={checkInput} />
       </section>
       {currentVideoInfo && (
