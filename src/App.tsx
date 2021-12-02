@@ -12,18 +12,21 @@ const App = () => {
   const [suggestions, setSuggestions] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [hidden, setHidden] = useState(true);
 
   const [downloaded, setDownloaded] = useState(0);
   const [totalSize, setTotalSize] = useState(1);
 
-  const checkInput = () => {
+  const checkInput = async () => {
+    setIsLoading(true);
     if (isYtUrl(inputText)) {
-      download(inputText);
+      await download(inputText);
     } else {
-      fetchSuggestions();
+      await fetchSuggestions();
     }
+    setIsLoading(false);
   };
 
   const fetchSuggestions = async () => {
@@ -96,7 +99,7 @@ const App = () => {
           style={{ width: "85%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
-        <Button disabled={!hidden} onClick={checkInput} />
+        <Button isLoading={isLoading} onClick={checkInput} />
       </section>
       {currentVideoInfo && (
         <section className="downloading-section">
