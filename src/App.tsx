@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { Button, FormatList, TextInput } from "./components";
-import Card from "./components/Card";
+import Card from "./components/Card/Card";
 import { getInfos, getSuggestions, downloadFileFromUrl } from "./utils/API";
 import { host, isYtUrl, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
@@ -124,7 +124,6 @@ const App = () => {
           })}
         </div>
       </section>
-      <footer className="footer"></footer>
     </>
   );
 };
