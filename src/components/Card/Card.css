@@ -39,10 +39,6 @@
   overflow: hidden;
 }
 
-.dark .card .title {
-  color: #b5b7ba;
-}
-
 @-webkit-keyframes gradient {
   0% {
     background-position: 0% 50%;
