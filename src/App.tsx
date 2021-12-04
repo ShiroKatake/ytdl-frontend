@@ -123,7 +123,7 @@ const App = () => {
           variant="success"
           now={downloadProgress}
           label={`${progressText(downloadProgress)} ${toMB(downloaded)}MB /${toMB(totalSize)}MB`}
-          style={{ width: "85%", height: "30px", lineHeight: "30px" }}
+          style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
         <Button main isLoading={isLoading} onClick={checkInput}>
