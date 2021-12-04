@@ -5,7 +5,6 @@ const formats = [
   {
     id: "mp4",
     name: "mp4",
-    isChecked: true,
   },
   {
     id: "mp3",
@@ -37,7 +36,7 @@ export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListPro
               id={format.id}
               name="format"
               checked={downloadFormat === format.id}
-              value={format.name}
+              value={format.id}
               onChange={e => setDownloadFormat(e.target.value)}
             />
             <label htmlFor={format.id} className="radio-label">

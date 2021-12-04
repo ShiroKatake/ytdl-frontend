@@ -10,7 +10,7 @@ export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
   const [focus, setFocus] = useState(false);
 
   return (
-    <div className={`input-container ${focus ? "animate" : ""}`}>
+    <div className={`input-container ${focus ? "shadow" : ""}`}>
       <input
         type="text"
         name="input"

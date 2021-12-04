@@ -11,6 +11,7 @@
 
 input[type="radio"] {
   position: absolute;
+  display: none;
 }
 
 input[type="radio"]:checked + .radio-label:before {

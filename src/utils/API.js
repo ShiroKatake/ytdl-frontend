@@ -26,6 +26,16 @@ export const getInfos = async url => {
   }
 };
 
+export const getPlaylist = async plId => {
+  try {
+    const response = await API.get(`/playlist?pl=${plId}`);
+    const { data } = response;
+    return data;
+  } catch (error) {
+    console.log(error.response.data);
+  }
+};
+
 export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProgress) => {
   try {
     await axios({

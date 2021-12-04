@@ -1,15 +1,15 @@
 import { useState } from "react";
 import "./App.css";
-import { Button, FormatList, TextInput } from "./components";
-import Card from "./components/Card/Card";
-import { getInfos, getSuggestions, downloadFileFromUrl } from "./utils/API";
-import { host, isYtUrl, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
+import { Button, Card, FormatList, TextInput } from "./components";
+import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
+import { host, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
   const [downloadFormat, setDownloadFormat] = useState("mp4");
   const [suggestions, setSuggestions] = useState<any>([]);
+  const [playlist, setPlaylist] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -20,22 +20,36 @@ const App = () => {
   const [totalSize, setTotalSize] = useState(1);
 
   const checkInput = async () => {
+    setIsLoading(true);
     if (isYtUrl(inputText)) {
       await download(inputText);
+    } else if (isYtList(inputText)) {
+      fetchPlaylist();
     } else {
       await fetchSuggestions();
     }
+    setIsLoading(false);
   };
 
   const fetchSuggestions = async () => {
     try {
-      setIsLoading(true);
       const { data, success } = await getSuggestions(inputText);
       if (success) {
         setSuggestions(data);
+        setPlaylist([]);
         setCurrentVideoInfo(undefined);
       }
-      setIsLoading(false);
+    } catch (err) {}
+  };
+
+  const fetchPlaylist = async () => {
+    try {
+      const { data, success } = await getPlaylist(inputText);
+      if (success) {
+        setPlaylist(data.items);
+        setSuggestions([]);
+        setCurrentVideoInfo(undefined);
+      }
     } catch (err) {}
   };
 
@@ -127,21 +141,11 @@ const App = () => {
       )}
       <section className="suggestions-section">
         {!!suggestions.length && <h1>Suggestions</h1>}
-        <div className="grid">
-          {suggestions.map((video: any) => {
-            return (
-              <Card
-                key={video.id}
-                isLoading={isLoading}
-                author={video.author.name}
-                title={video.title}
-                videoId={video.id}
-                thumbnailUrl={video.bestThumbnail.url}
-                handleDownload={() => download(video.id)}
-              />
-            );
-          })}
-        </div>
+        <Card suggestions={suggestions} isLoading={isLoading} download={download} />
+      </section>
+      <section className="playlist-section">
+        {!!playlist.length && <h1>Suggestions</h1>}
+        <Card suggestions={playlist} isLoading={isLoading} download={download} />
       </section>
     </>
   );

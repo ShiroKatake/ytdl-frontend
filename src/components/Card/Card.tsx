@@ -4,27 +4,27 @@ import { Button } from "..";
 import "./Card.css";
 
 interface ICardProps {
+  suggestions: any[];
   isLoading: boolean;
-  author: string;
-  title: string;
-  videoId: string;
-  description?: string;
-  thumbnailUrl: string;
-  handleDownload: (videoId: string) => void;
+  download: (videoId: string) => void;
 }
 
-const Card = ({ isLoading, author, title, videoId, description, thumbnailUrl, handleDownload }: ICardProps) => {
+export const Card = ({ suggestions, isLoading, download }: ICardProps) => {
   return (
-    <div className="card">
-      <a href={`https://youtube.com/watch?v=${videoId}`} rel="noopener noreferrer" target="_blank">
-        <div className="image" style={{ backgroundImage: `url(${thumbnailUrl})` }}></div>
-        <div className="title">{author + " - " + he.decode(title)}</div>
-      </a>
-      <Button isLoading={isLoading} onClick={() => handleDownload(videoId)}>
-        Download
-      </Button>
+    <div className="grid">
+      {suggestions.map((video: any) => {
+        return (
+          <div key={video.id} className="card">
+            <a href={`https://youtube.com/watch?v=${video.id}`} rel="noopener noreferrer" target="_blank">
+              <div className="image" style={{ backgroundImage: `url(${video.bestThumbnail.url})` }}></div>
+              <div className="title">{video.author.name + " - " + he.decode(video.title)}</div>
+            </a>
+            <Button isLoading={isLoading} onClick={() => download(video.id)}>
+              Download
+            </Button>
+          </div>
+        );
+      })}
     </div>
   );
 };
-
-export default React.memo(Card);

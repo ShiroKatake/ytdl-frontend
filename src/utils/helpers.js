@@ -1,6 +1,6 @@
 // Requires to have the local backend if you wanna run backend
-// export const host = "http://localhost:4000";
-export const host = "https://shirokatake-ytdl-backend.herokuapp.com";
+export const host = "https://localhost:4000";
+// export const host = "https://shirokatake-ytdl-backend.herokuapp.com";
 
 export const getDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
 
@@ -10,9 +10,19 @@ export const secondsToMinutes = time => {
 
 export const isYtUrl = url => {
   const ytRegex = new RegExp(
-    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
+    /^(?:https?:\/\/)?(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
   );
   return ytRegex.test(url); //Change to .match() to debug
+};
+
+export const isYtList = url => {
+  const plRegex = new RegExp(/^https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)playlist\?list=([a-zA-Z0-9\-_]{34})$/);
+  return plRegex.test(url);
+};
+
+export const isYtMixList = url => {
+  const mixPlRegex = new RegExp(/https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)(?:watch\?v=[a-zA-Z0-9]*&)?list=([a-zA-Z0-9\-_]{13})&?/);
+  return mixPlRegex.test(url);
 };
 
 export const changeFormatStorage = format => {
