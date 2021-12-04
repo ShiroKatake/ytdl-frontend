@@ -4,6 +4,7 @@ import { host, extractFileName } from "./helpers";
 export const API = axios.create({
   baseURL: host,
   responseType: "json",
+  headers: { "Access-Control-Allow-Origin": "https://shirokatake-ytdl-backend.herokuapp.com" },
 });
 
 export const getSuggestions = async searchQuery => {
