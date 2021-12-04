@@ -61,9 +61,10 @@ const App = () => {
     const { data, success } = await getInfos(videoUrl);
     if (success) {
       const downloadUrl = getDownloadUrl(videoUrl, downloadFormat);
-
+      let protocol = "wss";
+      if (window.location.hostname === "localhost") protocol = "ws";
       // Create WebSocket connection.
-      const socket = new WebSocket(`${host.replace(/^https?/i, "wss")}`);
+      const socket = new WebSocket(`${host.replace(/^https?/i, protocol)}`);
 
       let uid = "";
 
