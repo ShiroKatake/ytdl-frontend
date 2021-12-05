@@ -21,10 +21,6 @@ export const isYtMixList = url => {
   return mixPlRegex.test(url);
 };
 
-export const changeFormatStorage = format => {
-  localStorage.setItem("format", format);
-};
-
 export const extractFileName = str => {
   const regex = /.*filename=['"]?([^"]+)/g;
   return regex.exec(str)[1];

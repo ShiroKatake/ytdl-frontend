@@ -46,7 +46,6 @@ export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProg
       onDownloadProgress: progressEvent => {
         let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
         setDownloadProgress(percentCompleted);
-        console.log(percentCompleted);
       },
     }).then(response => {
       const fileName = extractFileName(response.headers["content-disposition"]);

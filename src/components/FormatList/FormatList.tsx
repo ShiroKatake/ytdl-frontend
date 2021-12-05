@@ -21,8 +21,8 @@ const formats = [
 ];
 
 interface IFormatListProps {
-  downloadFormat: string;
-  setDownloadFormat: Dispatch<SetStateAction<string>>;
+  downloadFormat: string | null;
+  setDownloadFormat: (format: string) => void;
 }
 
 export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListProps) => {

@@ -7,7 +7,13 @@ import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
-  const [downloadFormat, setDownloadFormat] = useState("mp4");
+
+  const [downloadFormat, changeDownloadFormat] = useState("mp4");
+  const setDownloadFormat = (format: string) => {
+    localStorage.setItem("format", format);
+    changeDownloadFormat(format);
+  };
+
   const [suggestions, setSuggestions] = useState<any>([]);
   const [playlist, setPlaylist] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
@@ -103,14 +109,14 @@ const App = () => {
   };
 
   const progressText = (downloadProgress: number) => {
-    let text = "Fetching . . .";
+    let text = `Fetching . . . ${toMB(downloaded)}MB / `;
     if (downloadProgress > 75) {
-      text = "Preparing download . . .";
+      text = "Preparing download . . . ";
     }
     if (downloadProgress === 100) {
-      text = "Ready!";
+      text = "Ready! ";
     }
-    return text;
+    return text + `${toMB(totalSize)}MB`;
   };
 
   return (
@@ -122,10 +128,13 @@ const App = () => {
           striped
           variant="success"
           now={downloadProgress}
-          label={`${progressText(downloadProgress)} ${toMB(downloaded)}MB /${toMB(totalSize)}MB`}
+          label={progressText(downloadProgress)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
-        <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
+        <FormatList
+          downloadFormat={localStorage.getItem("format") ? localStorage.getItem("format") : downloadFormat}
+          setDownloadFormat={setDownloadFormat}
+        />
         <Button main isLoading={isLoading} onClick={checkInput}>
           Search
         </Button>
