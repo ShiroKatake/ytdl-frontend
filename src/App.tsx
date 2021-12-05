@@ -1,29 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Button, Card, FormatList, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import {
-  host,
-  websocketProtocol,
-  isYtUrl,
-  isYtList,
-  getDownloadUrl,
-  isJson,
-  isUid,
-  waitForOpenConnection,
-  toMB,
-  removeYoutubeAutoNaming,
-} from "./utils/helpers";
+import { host, websocketProtocol, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
-
-  const [downloadFormat, changeDownloadFormat] = useState("mp4");
-  const setDownloadFormat = (format: string) => {
-    localStorage.setItem("format", format);
-    changeDownloadFormat(format);
-  };
+  const [downloadFormat, setDownloadFormat] = useState(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4");
 
   const [suggestions, setSuggestions] = useState<any>([]);
   const [playlist, setPlaylist] = useState<any>([]);
@@ -35,6 +19,10 @@ const App = () => {
 
   const [downloaded, setDownloaded] = useState(0);
   const [totalSize, setTotalSize] = useState(1);
+
+  useEffect(() => {
+    localStorage.setItem("format", downloadFormat);
+  }, [downloadFormat]);
 
   const checkInput = async () => {
     setIsLoading(true);
@@ -109,7 +97,7 @@ const App = () => {
       }
 
       setCurrentVideoInfo(data.videoDetails);
-      const filename = `${removeYoutubeAutoNaming(data.videoDetails.author.name)} - ${data.videoDetails.title}.${downloadFormat}`;
+      const filename = `${data.videoDetails.title}.${downloadFormat}`;
       console.log("Starting download . . .");
       await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress, filename);
       setIsLoading(false);
@@ -143,10 +131,7 @@ const App = () => {
           label={progressText(downloadProgress)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
-        <FormatList
-          downloadFormat={localStorage.getItem("format") ? localStorage.getItem("format") : downloadFormat}
-          setDownloadFormat={setDownloadFormat}
-        />
+        <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
         <Button main isLoading={isLoading} onClick={checkInput}>
           Search
         </Button>
@@ -154,7 +139,7 @@ const App = () => {
       {currentVideoInfo && (
         <section className="downloading-section">
           <div>
-            <h2>{removeYoutubeAutoNaming(currentVideoInfo.author.name) + " - " + currentVideoInfo.title}</h2>
+            <h2>{currentVideoInfo.title}</h2>
             <br />
             <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
           </div>

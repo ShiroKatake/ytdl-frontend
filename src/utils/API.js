@@ -1,5 +1,5 @@
 import axios from "axios";
-import { host, extractFileName } from "./helpers";
+import { host } from "./helpers";
 
 export const API = axios.create({
   baseURL: host,

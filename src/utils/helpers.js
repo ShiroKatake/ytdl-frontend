@@ -21,16 +21,6 @@ export const isYtMixList = url => {
   return regex.test(url);
 };
 
-export const removeYoutubeAutoNaming = name => {
-  const regex = RegExp(/ - Topic$/);
-  return name.replace(regex, "");
-};
-
-export const extractFileName = str => {
-  const regex = /.*filename=['"]?([^"]+)/g;
-  return regex.exec(str)[1];
-};
-
 export const isJson = str => {
   try {
     JSON.parse(str);
