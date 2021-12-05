@@ -2,7 +2,7 @@ export const host = window.location.hostname === "localhost" ? "http://localhost
 
 export const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
 
-export const getDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
+export const generateDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
 
 export const isYtUrl = url => {
   const regex = new RegExp(
@@ -53,6 +53,17 @@ export const isUid = str => {
   const regex = /[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}/g;
   const res = str.match(regex);
   return res ? res[0] : null;
+};
+
+export const generateProgressText = (downloadProgress, downloaded, totalSize) => {
+  let text = `Fetching . . . ${toMB(downloaded)}MB / `;
+  if (downloadProgress > 75) {
+    text = "Preparing download . . . ";
+  }
+  if (downloadProgress === 100) {
+    text = "Ready! ";
+  }
+  return text + `${toMB(totalSize)}MB`;
 };
 
 export const toMB = i => (i / 1024 / 1024).toFixed(2);

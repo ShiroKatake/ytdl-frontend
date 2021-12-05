@@ -2,7 +2,17 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { Button, Card, FormatList, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import { host, websocketProtocol, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
+import {
+  host,
+  websocketProtocol,
+  isYtUrl,
+  isYtList,
+  generateDownloadUrl,
+  isJson,
+  isUid,
+  generateProgressText,
+  waitForOpenConnection,
+} from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
@@ -65,7 +75,7 @@ const App = () => {
     if (!videoUrl) return;
     const { data, success } = await getInfos(videoUrl);
     if (success) {
-      const downloadUrl = getDownloadUrl(videoUrl, downloadFormat);
+      const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
 
       // Create WebSocket connection.
       const socket = new WebSocket(`${host.replace(/^https?/i, websocketProtocol)}`);
@@ -98,25 +108,16 @@ const App = () => {
 
       setCurrentVideoInfo(data.videoDetails);
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
+
       console.log("Starting download . . .");
       await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress, filename);
+
       setIsLoading(false);
       setTimeout(() => {
         setHidden(true);
         setDownloadProgress(0);
       }, 5000);
     }
-  };
-
-  const progressText = (downloadProgress: number) => {
-    let text = `Fetching . . . ${toMB(downloaded)}MB / `;
-    if (downloadProgress > 75) {
-      text = "Preparing download . . . ";
-    }
-    if (downloadProgress === 100) {
-      text = "Ready! ";
-    }
-    return text + `${toMB(totalSize)}MB`;
   };
 
   return (
@@ -128,7 +129,7 @@ const App = () => {
           striped
           variant="success"
           now={downloadProgress}
-          label={progressText(downloadProgress)}
+          label={generateProgressText(downloadProgress, downloaded, totalSize)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
