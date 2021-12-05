@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Button, Card, FormatList, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import { host, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
+import { host, websocketProtocol, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
@@ -61,10 +61,9 @@ const App = () => {
     const { data, success } = await getInfos(videoUrl);
     if (success) {
       const downloadUrl = getDownloadUrl(videoUrl, downloadFormat);
-      let protocol = "wss";
-      if (window.location.hostname === "localhost") protocol = "ws";
+
       // Create WebSocket connection.
-      const socket = new WebSocket(`${host.replace(/^https?/i, protocol)}`);
+      const socket = new WebSocket(`${host.replace(/^https?/i, websocketProtocol)}`);
 
       let uid = "";
 

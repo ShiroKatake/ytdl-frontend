@@ -1,11 +1,8 @@
-// Requires to have the local backend if you wanna run backend
 export const host = window.location.hostname === "localhost" ? "http://localhost:4000" : "https://shirokatake-ytdl-backend.herokuapp.com";
 
-export const getDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
+export const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
 
-export const secondsToMinutes = time => {
-  return Math.floor(time / 60) + ":" + Math.floor(time % 60);
-};
+export const getDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
 
 export const isYtUrl = url => {
   const ytRegex = new RegExp(
