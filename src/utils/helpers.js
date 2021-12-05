@@ -5,20 +5,25 @@ export const websocketProtocol = window.location.hostname === "localhost" ? "ws"
 export const getDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
 
 export const isYtUrl = url => {
-  const ytRegex = new RegExp(
+  const regex = new RegExp(
     /^(?:https?:\/\/)?(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
   );
-  return ytRegex.test(url); //Change to .match() to debug
+  return regex.test(url); //Change to .match() to debug
 };
 
 export const isYtList = url => {
-  const plRegex = new RegExp(/^https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)playlist\?list=([a-zA-Z0-9\-_]{34})$/);
-  return plRegex.test(url);
+  const regex = new RegExp(/^https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)playlist\?list=([a-zA-Z0-9\-_]{34})$/);
+  return regex.test(url);
 };
 
 export const isYtMixList = url => {
-  const mixPlRegex = new RegExp(/https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)(?:watch\?v=[a-zA-Z0-9]*&)?list=([a-zA-Z0-9\-_]{13})&?/);
-  return mixPlRegex.test(url);
+  const regex = new RegExp(/https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)(?:watch\?v=[a-zA-Z0-9]*&)?list=([a-zA-Z0-9\-_]{13})&?/);
+  return regex.test(url);
+};
+
+export const removeYoutubeAutoNaming = name => {
+  const regex = RegExp(/ - Topic$/);
+  return name.replace(regex, "");
 };
 
 export const extractFileName = str => {

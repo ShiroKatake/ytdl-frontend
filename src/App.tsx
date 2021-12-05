@@ -2,7 +2,18 @@ import { useState } from "react";
 import "./App.css";
 import { Button, Card, FormatList, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import { host, websocketProtocol, isYtUrl, isYtList, getDownloadUrl, isJson, isUid, waitForOpenConnection, toMB } from "./utils/helpers";
+import {
+  host,
+  websocketProtocol,
+  isYtUrl,
+  isYtList,
+  getDownloadUrl,
+  isJson,
+  isUid,
+  waitForOpenConnection,
+  toMB,
+  removeYoutubeAutoNaming,
+} from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
@@ -98,8 +109,9 @@ const App = () => {
       }
 
       setCurrentVideoInfo(data.videoDetails);
+      const filename = `${removeYoutubeAutoNaming(data.videoDetails.author.name)} - ${data.videoDetails.title}.${downloadFormat}`;
       console.log("Starting download . . .");
-      await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress);
+      await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress, filename);
       setIsLoading(false);
       setTimeout(() => {
         setHidden(true);
@@ -142,7 +154,7 @@ const App = () => {
       {currentVideoInfo && (
         <section className="downloading-section">
           <div>
-            <h2>{currentVideoInfo.title}</h2>
+            <h2>{removeYoutubeAutoNaming(currentVideoInfo.author.name) + " - " + currentVideoInfo.title}</h2>
             <br />
             <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
           </div>

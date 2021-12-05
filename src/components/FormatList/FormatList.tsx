@@ -10,14 +10,6 @@ const formats = [
     id: "mp3",
     name: "mp3",
   },
-  {
-    id: "mov",
-    name: "mov",
-  },
-  {
-    id: "flv",
-    name: "flv",
-  },
 ];
 
 interface IFormatListProps {

@@ -36,7 +36,7 @@ export const getPlaylist = async plId => {
   }
 };
 
-export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProgress) => {
+export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProgress, fileName) => {
   try {
     await axios({
       url: videoDownloadUrl,
@@ -48,7 +48,6 @@ export const downloadFileFromUrl = async (videoDownloadUrl, uid, setDownloadProg
         setDownloadProgress(percentCompleted);
       },
     }).then(response => {
-      const fileName = extractFileName(response.headers["content-disposition"]);
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       const link = document.createElement("a");
