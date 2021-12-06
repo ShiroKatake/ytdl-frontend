@@ -9,7 +9,7 @@
 .btn-animate:not(.main) {
   height: 3rem;
   width: 85%;
-  margin-bottom: 1em;
+  margin: 1em 0;
   font-size: 1.2em;
   font-weight: 600;
   letter-spacing: 1px;
@@ -80,12 +80,12 @@
   animation-iteration-count: infinite;
 }
 
-.btn-animate.loading > p {
+.btn-animate.loading > span {
   opacity: 0;
   transition: opacity 250ms;
 }
 
-.btn-animate > p {
+.btn-animate > span {
   opacity: 1;
   transition: opacity 500ms;
 }

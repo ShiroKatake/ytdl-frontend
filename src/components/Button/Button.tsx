@@ -1,8 +1,9 @@
+import { IoMdDownload } from "react-icons/io";
 import "./Button.css";
 
 interface IButtonProps {
   main?: boolean;
-  children: string;
+  children?: string;
   isLoading: boolean;
   onClick: () => void;
 }
@@ -10,7 +11,7 @@ interface IButtonProps {
 export const Button = ({ main, children, isLoading, onClick }: IButtonProps) => {
   return (
     <button disabled={isLoading} className={`btn-animate ${main ? "main" : ""} ${isLoading ? "loading" : ""}`} onClick={onClick}>
-      <p>{children}</p>
+      <span>{children ? children : <IoMdDownload />}</span>
       <div className="spinner" />
     </button>
   );
