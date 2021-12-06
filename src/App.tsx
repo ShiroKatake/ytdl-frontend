@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Button, Card, FormatList, TextInput } from "./components";
+import { Button, Card, FormatList, Playlist, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
 import {
   host,
@@ -17,11 +17,14 @@ import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
-  const [downloadFormat, setDownloadFormat] = useState(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4");
+  const [downloadFormat, setDownloadFormat] = useState(
+    localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4"
+  );
 
   const [suggestions, setSuggestions] = useState<any>([]);
-  const [playlist, setPlaylist] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
+
+  const [playlistInfo, setPlaylistInfo] = useState<any>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -51,7 +54,7 @@ const App = () => {
       const { data, success } = await getSuggestions(inputText);
       if (success) {
         setSuggestions(data);
-        setPlaylist([]);
+        setPlaylistInfo([]);
         setCurrentVideoInfo(undefined);
       }
     } catch (err) {}
@@ -61,7 +64,7 @@ const App = () => {
     try {
       const { data, success } = await getPlaylist(inputText);
       if (success) {
-        setPlaylist(data.items);
+        setPlaylistInfo(data);
         setSuggestions([]);
         setCurrentVideoInfo(undefined);
       }
@@ -142,18 +145,25 @@ const App = () => {
           <div>
             <h2>{currentVideoInfo.title}</h2>
             <br />
-            <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
+            <img
+              src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`}
+              alt={currentVideoInfo.title}
+            />
           </div>
         </section>
       )}
-      <section className="suggestions-section">
-        {!!suggestions.length && <h1>Suggestions</h1>}
-        <Card suggestions={suggestions} isLoading={isLoading} download={download} />
-      </section>
-      <section className="playlist-section">
-        {!!playlist.length && <h1>Suggestions</h1>}
-        <Card suggestions={playlist} isLoading={isLoading} download={download} />
-      </section>
+      {suggestions.length > 0 && (
+        <section className="suggestions-section">
+          <h1>Suggestions</h1>
+          <Card suggestions={suggestions} isLoading={isLoading} download={download} />
+        </section>
+      )}
+      {playlistInfo.items?.length > 0 && (
+        <section className="playlist-section">
+          <h1>{playlistInfo.author.name + " - " + playlistInfo.title}</h1>
+          <Playlist playlist={playlistInfo.items} isLoading={isLoading} download={download} />
+        </section>
+      )}
     </>
   );
 };
