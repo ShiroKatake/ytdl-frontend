@@ -30,6 +30,7 @@ const App = () => {
 
   const [downloaded, setDownloaded] = useState(0);
   const [totalSize, setTotalSize] = useState(1);
+  const [timeoutFunctionId, setTimeoutFunctionId] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
     localStorage.setItem("format", downloadFormat);
@@ -41,8 +42,10 @@ const App = () => {
     if (ytId) {
       await download(ytId);
     } else if (isYtList(inputText)) {
+      setHidden(true);
       await fetchPlaylist();
     } else {
+      setHidden(true);
       await fetchSuggestions();
     }
     setIsLoading(false);
@@ -72,6 +75,8 @@ const App = () => {
 
   const download = async (videoId: string) => {
     setIsLoading(true);
+    setDownloadProgress(0);
+    if (timeoutFunctionId) clearInterval(timeoutFunctionId);
     setHidden(false);
     const videoUrl = videoId || inputText;
     if (!videoUrl) return;
@@ -115,10 +120,12 @@ const App = () => {
       await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress, filename);
 
       setIsLoading(false);
-      setTimeout(() => {
-        setHidden(true);
-        setDownloadProgress(0);
-      }, 5000);
+      setTimeoutFunctionId(
+        setTimeout(() => {
+          setHidden(true);
+          setDownloadProgress(0);
+        }, 3000)
+      );
     }
   };
 

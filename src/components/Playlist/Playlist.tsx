@@ -65,12 +65,7 @@ export const Playlist = ({ playlist: suggestions, isLoading, download }: IPlayli
             <th scope="col">Download</th>
             <th scope="col">
               <div>
-                <input
-                  type="checkbox"
-                  checked={checkedAll}
-                  id="selectAll"
-                  onChange={() => checkAll(!checkedAll)}
-                />
+                <input type="checkbox" checked={checkedAll} id="selectAll" onChange={() => checkAll(!checkedAll)} />
                 <label className="checkbox-label"> Select</label>
               </div>
             </th>
