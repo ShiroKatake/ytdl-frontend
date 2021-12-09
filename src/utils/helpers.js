@@ -8,7 +8,7 @@ export const getYtUrl = url => {
   const regex = new RegExp(
     /^(?:https?:\/\/)?(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
   );
-  return url.match(regex)[1]; //Change to .match() to debug
+  return url.match(regex)?.[1]; //Change to .match() to debug
 };
 
 export const isYtList = url => {
