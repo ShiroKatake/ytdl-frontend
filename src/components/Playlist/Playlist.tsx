@@ -55,7 +55,7 @@ export const Playlist = ({ playlist: suggestions, isLoading, download }: IPlayli
   }, [checked]);
 
   return (
-    <div className="grid">
+    <div className="playlist">
       <table>
         <thead>
           <tr>
@@ -104,6 +104,11 @@ export const Playlist = ({ playlist: suggestions, isLoading, download }: IPlayli
           })}
         </tbody>
       </table>
+      <div className="download-selected-btn">
+        <Button isLoading={isLoading} onClick={() => download("video.id")}>
+          Download Selected
+        </Button>
+      </div>
     </div>
   );
 };

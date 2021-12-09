@@ -4,11 +4,11 @@ export const websocketProtocol = window.location.hostname === "localhost" ? "ws"
 
 export const generateDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
 
-export const isYtUrl = url => {
+export const getYtUrl = url => {
   const regex = new RegExp(
     /^(?:https?:\/\/)?(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
   );
-  return regex.test(url); //Change to .match() to debug
+  return url.match(regex)[1]; //Change to .match() to debug
 };
 
 export const isYtList = url => {

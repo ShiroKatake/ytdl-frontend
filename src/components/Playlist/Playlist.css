@@ -1,3 +1,9 @@
+.playlist {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 table {
   border-collapse: collapse;
   max-width: 50%;
@@ -16,4 +22,10 @@ thead > tr {
 
 tbody > tr {
   border-bottom: 1px solid grey;
+}
+
+.download-selected-btn {
+  width: content;
+  @media screen {
+  }
 }

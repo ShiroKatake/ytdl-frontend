@@ -5,7 +5,7 @@ import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./ut
 import {
   host,
   websocketProtocol,
-  isYtUrl,
+  getYtUrl,
   isYtList,
   generateDownloadUrl,
   isJson,
@@ -17,9 +17,7 @@ import { ProgressBar } from "react-bootstrap";
 
 const App = () => {
   const [inputText, setInputText] = useState("");
-  const [downloadFormat, setDownloadFormat] = useState(
-    localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4"
-  );
+  const [downloadFormat, setDownloadFormat] = useState(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4");
 
   const [suggestions, setSuggestions] = useState<any>([]);
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
@@ -39,10 +37,11 @@ const App = () => {
 
   const checkInput = async () => {
     setIsLoading(true);
-    if (isYtUrl(inputText)) {
-      await download(inputText);
+    const ytId = getYtUrl(inputText);
+    if (ytId) {
+      await download(ytId);
     } else if (isYtList(inputText)) {
-      fetchPlaylist();
+      await fetchPlaylist();
     } else {
       await fetchSuggestions();
     }
@@ -145,10 +144,7 @@ const App = () => {
           <div>
             <h2>{currentVideoInfo.title}</h2>
             <br />
-            <img
-              src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`}
-              alt={currentVideoInfo.title}
-            />
+            <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
           </div>
         </section>
       )}
