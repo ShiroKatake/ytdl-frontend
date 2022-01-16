@@ -12,7 +12,7 @@ export const getYtUrl = url => {
 };
 
 export const isYtList = url => {
-  const regex = new RegExp(/^https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)playlist\?list=([a-zA-Z0-9\-_]{34})$/);
+  const regex = new RegExp(/^https?:\/\/(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/)playlist\?list=([a-zA-Z0-9\-_]*)$/);
   return regex.test(url);
 };
 
