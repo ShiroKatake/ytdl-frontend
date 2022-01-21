@@ -1,14 +1,26 @@
 export const host = window.location.hostname === "localhost" ? "http://localhost:4000" : "https://shirokatake-ytdl-backend.herokuapp.com";
 
-export const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
+export const createWebSocketConnection = () => {
+  const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
+  return new WebSocket(`${host.replace(/^https?/i, websocketProtocol)}`);
+}
 
 export const generateDownloadUrl = (videoId, format = "mp4") => `${host}/download?v=${videoId}&format=${format}`;
+
+export const fetchYt = async (fetchFn, inputText, callbackFn) => {
+  try {
+    const { data, success } = await fetchFn(inputText);
+    if (success) {
+      callbackFn(data);
+    }
+  } catch (err) {}
+}
 
 export const getYtUrl = url => {
   const regex = new RegExp(
     /^(?:https?:\/\/)?(?:music\.|www\.)?(?:youtu\.?be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:&\S*)?(?:\?\S*)?$/
   );
-  return url.match(regex)?.[1]; //Change to .match() to debug
+  return url.match(regex)?.[1];
 };
 
 export const isYtList = url => {
@@ -30,7 +42,7 @@ export const isJson = str => {
   return true;
 };
 
-export const waitForOpenConnection = socket => {
+const waitForOpenConnection = socket => {
   return new Promise((resolve, reject) => {
     const maxNumberOfAttempts = 10;
     const intervalTime = 200; //ms
@@ -49,10 +61,24 @@ export const waitForOpenConnection = socket => {
   });
 };
 
+export const sendMessage = async (socket, message) => {
+  console.log(socket);
+  if (socket.readyState !== socket.OPEN) {
+    try {
+      await waitForOpenConnection(socket);
+      socket.send(message);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    socket.send(message);
+  }
+}
+
 export const isUid = str => {
   const regex = /[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}/g;
   const res = str.match(regex);
-  return res ? res[0] : null;
+  return res ? res[0] : "";
 };
 
 export const generateProgressText = (downloadProgress, downloaded, totalSize) => {

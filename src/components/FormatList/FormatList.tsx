@@ -1,14 +1,8 @@
 import "./FormatList.css";
 
 const formats = [
-  {
-    id: "mp4",
-    name: "mp4",
-  },
-  {
-    id: "mp3",
-    name: "mp3",
-  },
+  { id: "mp4" },
+  { id: "mp3" },
 ];
 
 interface IFormatListProps {
@@ -19,7 +13,7 @@ interface IFormatListProps {
 export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListProps) => {
   return (
     <ul className="format-list">
-      {formats.map(format => {
+      {formats.map((format) => {
         return (
           <li key={format.id}>
             <input
@@ -28,10 +22,10 @@ export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListPro
               name="format"
               checked={downloadFormat === format.id}
               value={format.id}
-              onChange={e => setDownloadFormat(e.target.value)}
+              onChange={(e) => setDownloadFormat(e.target.value)}
             />
             <label htmlFor={format.id} className="radio-label">
-              {format.name}
+              {format.id}
             </label>
           </li>
         );

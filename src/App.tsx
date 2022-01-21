@@ -1,40 +1,44 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import { Button, Card, FormatList, Playlist, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import {
-  host,
-  websocketProtocol,
-  getYtUrl,
-  isYtList,
-  generateDownloadUrl,
-  isJson,
-  isUid,
-  generateProgressText,
-  waitForOpenConnection,
-} from "./utils/helpers";
+import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
+import { useAppContext } from "./context/AppContext";
+import { CurrentVideoInfo } from "./components/CurrentVideoInfo/CurrentVideoInfo";
+import "./App.css";
 
-const App = () => {
-  const [inputText, setInputText] = useState("");
-  const [downloadFormat, setDownloadFormat] = useState(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4");
+export const App = () => {
+  const { setIsLoading } = useAppContext();
 
-  const [suggestions, setSuggestions] = useState<any>([]);
-  const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
+  const [ inputText, setInputText ] = useState<string>("");
+  const [ downloadFormat, setDownloadFormat ] = useState<string>(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4")
 
-  const [playlistInfo, setPlaylistInfo] = useState<any>([]);
+  const [ currentVideoInfo, setCurrentVideoInfo ] = useState<any>(null);
+  const [ suggestions, setSuggestions ] = useState<any>([]);
+  const [ playlistInfo, setPlaylistInfo ] = useState<any>([]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState(0);
-  const [hidden, setHidden] = useState(true);
+  const [ isHidden, setIsHidden ] = useState(true);
+  const [ downloadedPercent, setDownloadedPercent ] = useState(0);
+  const [ downloaded, setDownloaded ] = useState(0);
+  const [ totalDownloadSize, setTotalDownloadSize ] = useState(1);
 
-  const [downloaded, setDownloaded] = useState(0);
-  const [totalSize, setTotalSize] = useState(1);
-  const [timeoutFunctionId, setTimeoutFunctionId] = useState<NodeJS.Timeout>();
+  const [ timeoutFunctionId, setTimeoutFunctionId ] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
     localStorage.setItem("format", downloadFormat);
   }, [downloadFormat]);
+
+  const setSuggestionsActive = (data: any) => {
+    setPlaylistInfo([]);
+    setSuggestions(data);
+    setCurrentVideoInfo(null);
+  }
+
+  const setPlaylistActive = (data: any) => {
+    setPlaylistInfo(data);
+    setSuggestions([]);
+    setCurrentVideoInfo(null);
+  }
 
   const checkInput = async () => {
     setIsLoading(true);
@@ -42,88 +46,55 @@ const App = () => {
     if (ytId) {
       await download(ytId);
     } else if (isYtList(inputText)) {
-      setHidden(true);
-      await fetchPlaylist();
+      setIsHidden(true);
+      await fetchYt(getPlaylist, inputText, setPlaylistActive);
     } else {
-      setHidden(true);
-      await fetchSuggestions();
+      setIsHidden(true);
+      await fetchYt(getSuggestions, inputText, setSuggestionsActive);
     }
     setIsLoading(false);
   };
 
-  const fetchSuggestions = async () => {
-    try {
-      const { data, success } = await getSuggestions(inputText);
-      if (success) {
-        setSuggestions(data);
-        setPlaylistInfo([]);
-        setCurrentVideoInfo(undefined);
-      }
-    } catch (err) {}
-  };
-
-  const fetchPlaylist = async () => {
-    try {
-      const { data, success } = await getPlaylist(inputText);
-      if (success) {
-        setPlaylistInfo(data);
-        setSuggestions([]);
-        setCurrentVideoInfo(undefined);
-      }
-    } catch (err) {}
-  };
-
   const download = async (videoId: string) => {
-    setIsLoading(true);
-    setDownloadProgress(0);
-    if (timeoutFunctionId) clearInterval(timeoutFunctionId);
-    setHidden(false);
     const videoUrl = videoId || inputText;
     if (!videoUrl) return;
+
+    setIsLoading(true);
+    setDownloadedPercent(0);
+    if (timeoutFunctionId) {
+      clearInterval(timeoutFunctionId);
+    }
+    setIsHidden(false);
+
     const { data, success } = await getInfos(videoUrl);
     if (success) {
       const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
-
-      // Create WebSocket connection.
-      const socket = new WebSocket(`${host.replace(/^https?/i, websocketProtocol)}`);
-
+      const socket = createWebSocketConnection();
       let uid = "";
 
       // Listen for messages
-      socket.addEventListener("message", event => {
-        if (isUid(event.data)) {
-          uid = isUid(event.data);
-        }
+      socket.addEventListener("message", (event) => {
+        uid = isUid(event.data);
         if (isJson(event.data)) {
           const downloadProgress = JSON.parse(event.data);
-          setDownloadProgress((downloadProgress.downloaded / downloadProgress.total) * 75);
+          setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
           setDownloaded(downloadProgress.downloaded);
-          setTotalSize(downloadProgress.total);
+          setTotalDownloadSize(downloadProgress.total);
         }
       });
-
-      if (socket.readyState !== socket.OPEN) {
-        try {
-          await waitForOpenConnection(socket);
-          socket.send(uid);
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        socket.send(uid);
-      }
+      await sendMessage(socket, uid);
 
       setCurrentVideoInfo(data.videoDetails);
-      const filename = `${data.videoDetails.title}.${downloadFormat}`;
 
       console.log("Starting download . . .");
-      await downloadFileFromUrl(downloadUrl, uid, setDownloadProgress, filename);
+      const filename = `${data.videoDetails.title}.${downloadFormat}`;
+      await downloadFileFromUrl(downloadUrl, uid, setDownloadedPercent, filename);
 
       setIsLoading(false);
       setTimeoutFunctionId(
         setTimeout(() => {
-          setHidden(true);
-          setDownloadProgress(0);
+          setIsHidden(true);
+          setDownloadedPercent(0);
         }, 3000)
       );
     }
@@ -132,43 +103,29 @@ const App = () => {
   return (
     <>
       <section className="search-section">
-        <TextInput inputText={inputText} setInputText={setInputText} />
+        <TextInput inputText={inputText} setInputText={setInputText}/>
         <ProgressBar
-          hidden={hidden}
+          hidden={isHidden}
           striped
           variant="success"
-          now={downloadProgress}
-          label={generateProgressText(downloadProgress, downloaded, totalSize)}
+          now={downloadedPercent}
+          label={generateProgressText(downloadedPercent, downloaded, totalDownloadSize)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
-        <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
-        <Button main isLoading={isLoading} onClick={checkInput}>
+        <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat}/>
+        <Button main onClick={checkInput}>
           Search
         </Button>
       </section>
       {currentVideoInfo && (
-        <section className="downloading-section">
-          <div>
-            <h2>{currentVideoInfo.title}</h2>
-            <br />
-            <img src={`https://i.ytimg.com/vi/${currentVideoInfo.videoId}/hqdefault.jpg`} alt={currentVideoInfo.title} />
-          </div>
-        </section>
+        <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />
       )}
       {suggestions.length > 0 && (
-        <section className="suggestions-section">
-          <h1>Suggestions</h1>
-          <Card suggestions={suggestions} isLoading={isLoading} download={download} />
-        </section>
+        <Card suggestions={suggestions} download={download} />
       )}
       {playlistInfo.items?.length > 0 && (
-        <section className="playlist-section">
-          <h1>{playlistInfo.author.name + " - " + playlistInfo.title}</h1>
-          <Playlist playlist={playlistInfo.items} isLoading={isLoading} download={download} />
-        </section>
+        <Playlist playlistInfo={playlistInfo} download={download} />
       )}
     </>
   );
 };
-
-export default App;

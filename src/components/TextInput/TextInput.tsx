@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import "./TextInput.css";
 
 interface ITextInputProps {
   inputText: string;
-  setInputText: Dispatch<SetStateAction<string>>;
+  setInputText: (val: string) => void;
 }
 
 export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
@@ -21,7 +21,7 @@ export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
         onBlur={() => setFocus(false)}
         onFocus={() => setFocus(true)}
         value={inputText}
-        onChange={e => setInputText(e.target.value)}
+        onChange={(e) => setInputText(e.target.value)}
         autoFocus
       />
     </div>
