@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, FormatList, Playlist, TextInput } from "./components";
+import { Button, Suggestions, FormatList, Playlist, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
 import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
@@ -121,7 +121,7 @@ export const App = () => {
         <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />
       )}
       {suggestions.length > 0 && (
-        <Card suggestions={suggestions} download={download} />
+        <Suggestions suggestions={suggestions} download={download} />
       )}
       {playlistInfo.items?.length > 0 && (
         <Playlist playlistInfo={playlistInfo} download={download} />

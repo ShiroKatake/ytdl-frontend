@@ -1,14 +1,13 @@
 import he from "he";
 import { Button } from "..";
-import "./Card.css";
+import "./Suggestions.css";
 
-interface ICardProps {
+interface ISuggestionsProps {
   suggestions: any;
   download: (videoId: string) => void;
 }
 
-export const Card = ({ suggestions, download }: ICardProps) => {
-
+export const Suggestions = ({ suggestions, download }: ISuggestionsProps) => {
   return (
     <section className="suggestions-section">
       <h1>Suggestions</h1>
