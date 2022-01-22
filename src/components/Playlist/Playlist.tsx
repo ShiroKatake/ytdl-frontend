@@ -1,39 +1,39 @@
-import he from "he";
 import { useEffect, useState } from "react";
 import { Button } from "..";
+import { PlaylistHeader } from "./components/PlaylistHeader";
+import { PlaylistItems } from "./components/PlaylistItems";
 import "./Playlist.css";
 
-interface IPlaylistProps {
+export interface IPlaylistProps {
   playlistInfo: any;
   download: (videoId: string) => void;
 }
 
-interface ICheckbox {
+export interface ICheckbox {
   [key: number]: boolean;
 }
 
-interface IPlaylistObject {
+export interface IPlaylistObject {
   [key: number]: string;
 }
 
 export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
   const initialChecked: ICheckbox = {};
-  const initialIdList: IPlaylistObject = {};
-  const [checkedAll, setCheckedAll] = useState(false);
-  const [checked, setChecked] = useState(initialChecked);
+  const videoIdList: IPlaylistObject = {};
+  const [isCheckedAll, setIsCheckedAll] = useState(false);
+  const [isChecked, setIsChecked] = useState(initialChecked);
 
   const checkOnce = (index: number) => {
-    setChecked((prevState: any) => {
+    setIsChecked((prevState: any) => {
       const newState = { ...prevState };
       newState[index] = !prevState[index];
       return newState;
     });
-    console.log(initialIdList);
   };
 
   const checkAll = (state: boolean) => {
-    setCheckedAll(state);
-    setChecked((prevState: any) => {
+    setIsCheckedAll(state);
+    setIsChecked((prevState: any) => {
       for (const index in prevState) {
         prevState[index] = state;
       }
@@ -42,16 +42,23 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
   };
 
   useEffect(() => {
-    let allChecked = true;
-    for (const index in checked) {
-      if (checked[index] !== allChecked) {
-        allChecked = false;
+    let isAllChecked = true;
+    for (const index in isChecked) {
+      if (isChecked[index] !== isAllChecked) {
+        isAllChecked = false;
         break;
       }
     }
-    setCheckedAll(allChecked);
-    console.log(checked);
-  }, [checked]);
+    setIsCheckedAll(isAllChecked);
+    console.log(videoIdList);
+    console.log(isChecked);
+  }, [isChecked]);
+
+  // To be deleted
+  useEffect(() => {
+    console.log(videoIdList);
+    console.log(isChecked);
+  }, [isCheckedAll]);
 
   return (
     <section className="playlist-section">
@@ -59,45 +66,20 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
       <div className="playlist">
         <table>
           <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Thumbnail</th>
-              <th scope="col">Title</th>
-              <th scope="col">Download</th>
-              <th scope="col">
-                <div>
-                  <input type="checkbox" checked={checkedAll} id="selectAll" onChange={() => checkAll(!checkedAll)} />
-                  <label className="checkbox-label"> Select</label>
-                </div>
-              </th>
-            </tr>
+            <PlaylistHeader
+              isCheckedAll={isCheckedAll}
+              checkAll={checkAll}
+            />
           </thead>
           <tbody>
-            {playlistInfo.items.map((video: any, index: number) => {
-              initialChecked[index] = false;
-              initialIdList[index] = video.id;
-              return (
-                <tr key={video.id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img width="100" src={video.bestThumbnail.url} alt={video.title} />
-                  </td>
-                  <td>{he.decode(video.title)}</td>
-                  <td>
-                    <Button onClick={() => download(video.id)} />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={checked[index]}
-                      onChange={() => {
-                        checkOnce(index);
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            <PlaylistItems
+              playlistInfo={playlistInfo}
+              checked={isChecked}
+              checkOnce={checkOnce}
+              initialChecked={initialChecked}
+              videoIdList={videoIdList}
+              download={download}
+            />
           </tbody>
         </table>
         <div className="download-selected-btn">

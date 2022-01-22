@@ -10,10 +10,10 @@ export const AppContextProvider: React.FC = ({ children }) => {
   
   const appContext: IAppContext = {
     inputText,
-    isLoading,
+    buttonIsLoading: isLoading,
 
     setInputText,
-    setIsLoading,
+    setButtonIsLoading: setIsLoading,
   };
 
   return <AppContext.Provider value={appContext}>{children}</AppContext.Provider>;

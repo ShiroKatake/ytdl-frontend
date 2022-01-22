@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Suggestions, FormatList, Playlist, TextInput } from "./components";
-import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
-import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils/helpers";
 import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
-import { CurrentVideoInfo } from "./components/CurrentVideoInfo/CurrentVideoInfo";
+import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
+import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
+import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils/helpers";
 import "./App.css";
 
 export const App = () => {
-  const { setIsLoading } = useAppContext();
+  const { setButtonIsLoading } = useAppContext();
 
   const [ inputText, setInputText ] = useState<string>("");
   const [ downloadFormat, setDownloadFormat ] = useState<string>(localStorage.getItem("format") ? localStorage.getItem("format")! : "mp4")
@@ -40,8 +39,8 @@ export const App = () => {
     setCurrentVideoInfo(null);
   }
 
-  const checkInput = async () => {
-    setIsLoading(true);
+  const checkInputText = async () => {
+    setButtonIsLoading(true);
     const ytId = getYtUrl(inputText);
     if (ytId) {
       await download(ytId);
@@ -52,18 +51,18 @@ export const App = () => {
       setIsHidden(true);
       await fetchYt(getSuggestions, inputText, setSuggestionsActive);
     }
-    setIsLoading(false);
+    setButtonIsLoading(false);
   };
 
   const download = async (videoId: string) => {
     const videoUrl = videoId || inputText;
     if (!videoUrl) return;
 
-    setIsLoading(true);
     setDownloadedPercent(0);
     if (timeoutFunctionId) {
       clearInterval(timeoutFunctionId);
     }
+    setButtonIsLoading(true);
     setIsHidden(false);
 
     const { data, success } = await getInfos(videoUrl);
@@ -90,7 +89,7 @@ export const App = () => {
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
       await downloadFileFromUrl(downloadUrl, uid, setDownloadedPercent, filename);
 
-      setIsLoading(false);
+      setButtonIsLoading(false);
       setTimeoutFunctionId(
         setTimeout(() => {
           setIsHidden(true);
@@ -113,7 +112,7 @@ export const App = () => {
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat}/>
-        <Button main onClick={checkInput}>
+        <Button main onClick={checkInputText}>
           Search
         </Button>
       </section>

@@ -9,7 +9,7 @@ interface IButtonProps {
 }
 
 export const Button = ({ main, children, onClick }: IButtonProps) => {
-  const { isLoading } = useAppContext();
+  const { buttonIsLoading: isLoading } = useAppContext();
   
   return (
     <button
