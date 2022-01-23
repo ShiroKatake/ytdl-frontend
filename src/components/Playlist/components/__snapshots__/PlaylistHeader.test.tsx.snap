@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testiemonial Page should match the snapshot 1`] = `
+<body>
+  <div>
+    <table>
+      <tbody>
+        <tr>
+          <th
+            scope="col"
+          >
+            #
+          </th>
+          <th
+            scope="col"
+          >
+            Thumbnail
+          </th>
+          <th
+            scope="col"
+          >
+            Title
+          </th>
+          <th
+            scope="col"
+          >
+            Download
+          </th>
+          <th
+            scope="col"
+          >
+            <label
+              class="checkbox-label"
+            >
+              Select All 
+            </label>
+            <input
+              id="selectAll"
+              type="checkbox"
+            />
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+`;
