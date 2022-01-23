@@ -17,6 +17,9 @@
 
 .btn-animate {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -86,6 +89,7 @@
 }
 
 .btn-animate > span {
+  display: flex;
   opacity: 1;
   transition: opacity 500ms;
 }
