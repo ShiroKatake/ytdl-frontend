@@ -2,7 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { Playlist } from './Playlist';
 import mockedPlaylist from '../../mocks/mockedPlaylist';
 
-const mockedDownload = jest.fn((videoId: string) => videoId)
+const mockedDownload = jest.fn((videoId: string) => videoId);
 
 describe('Testiemonial Page', () => {
   beforeEach(async () => {
@@ -14,17 +14,15 @@ describe('Testiemonial Page', () => {
 
   afterEach(cleanup);
 
-  it('should pass the correct video id when click download', async () => {
+  it('should pass the correct video id on click download', async () => {
     const downloadButton = await screen.findByTestId("downloadButton-0");
+    fireEvent.click(downloadButton);
 
-    act(() => {
-      fireEvent.click(downloadButton);
-    });
     expect(mockedDownload).toHaveBeenCalledTimes(1);
     expect(mockedDownload).toHaveBeenCalledWith("videoId0");
   });
 
-  it('should pass the correct video id list when click download-selected', async () => {
+  it('should pass the correct video id list on click download-selected', async () => {
     const checkboxAll = await screen.findByTestId("checkbox-universal");
     const checkboxSingle = await screen.findByTestId("checkbox-0");
     const checkboxSingleOther = await screen.findByTestId("checkbox-1");

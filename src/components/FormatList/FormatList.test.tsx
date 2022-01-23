@@ -18,7 +18,7 @@ describe('Testiemonial Page', () => {
 
   afterEach(cleanup);
 
-  it('should pass the correct video id when click download', async () => {
+  it('should change to the correct download format on click', async () => {
     const radioButton: HTMLInputElement = await screen.findByTestId("radio-mp3");
     expect(radioButton.checked).toBeTruthy();
 
