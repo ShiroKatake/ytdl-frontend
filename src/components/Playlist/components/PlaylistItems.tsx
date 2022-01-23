@@ -22,10 +22,11 @@ export const PlaylistItems = ({playlistInfo, checked, checkOnce, initialChecked,
           </td>
           <td>{he.decode(video.title)}</td>
           <td>
-            <Button onClick={() => download(video.id)} />
+            <Button data-testid={`downloadButton-${index}`} onClick={() => download(video.id)} />
           </td>
           <td>
             <input
+              data-testid={`checkbox-${index}`}
               type="checkbox"
               checked={checked[index]}
               onChange={() => {

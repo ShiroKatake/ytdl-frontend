@@ -50,14 +50,14 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
       }
     }
     setIsCheckedAll(isAllChecked);
-    console.log(videoIdList);
-    console.log(isChecked);
+    // console.log(videoIdList);
+    // console.log(isChecked);
   }, [isChecked]);
 
   // To be deleted
   useEffect(() => {
-    console.log(videoIdList);
-    console.log(isChecked);
+    // console.log(videoIdList);
+    // console.log(isChecked);
   }, [isCheckedAll]);
 
   return (
@@ -83,7 +83,7 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
           </tbody>
         </table>
         <div className="download-selected-btn">
-          <Button onClick={() => download("video.id")}>
+          <Button data-testid="downloadButton-selected" onClick={() => download(JSON.stringify(isChecked))}>
             Download Selected
           </Button>
         </div>

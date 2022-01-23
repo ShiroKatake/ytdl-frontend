@@ -8,11 +8,12 @@ interface IButtonProps {
   onClick: () => void;
 }
 
-export const Button = ({ main, children, onClick }: IButtonProps) => {
+export const Button = ({ main, children, onClick, ...props }: IButtonProps) => {
   const { buttonIsLoading: isLoading } = useAppContext();
   
   return (
     <button
+      {...props}
       disabled={isLoading}
       className={`btn-animate ${main ? "main" : ""} ${isLoading ? "loading" : ""}`}
       onClick={onClick}

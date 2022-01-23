@@ -9,16 +9,19 @@ module.exports = {
     "<rootDir>/build/",
     "<rootDir>/public/",
   ],
-  setupFilesAfterEnv: [
-    "@testing-library/jest-dom/extend-expect"
-  ],
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  // setupFilesAfterEnv: [
+  //   "@testing-library/jest-dom/extend-expect"
+  // ],
+  moduleNameMapper: {
+    '^.+\\.(css|less)$': '<rootDir>/src/mocks/mockCSS.js'
+  },
+  // moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   coverageThreshold: {
     global: {
-      statements: 40,
-      branches: 28,
-      functions: 39,
-      lines: 39,
+      statements: 40.44,
+      branches: 16.66,
+      functions: 30.61,
+      lines: 37.5,
     },
   },
   collectCoverageFrom: [

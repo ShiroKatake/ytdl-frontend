@@ -11,15 +11,14 @@ export const PlaylistHeader = ({isCheckedAll, checkAll}: IPlaylistHeaderProps) =
       <th scope="col">Title</th>
       <th scope="col">Download</th>
       <th scope="col">
-        <>
-          <label className="checkbox-label">Select All </label>
-          <input
-            type="checkbox"
-            checked={isCheckedAll}
-            id="selectAll"
-            onChange={() => checkAll(!isCheckedAll)}
-          />
-        </>
+        <label className="checkbox-label">Select All </label>
+        <input
+          data-testid="checkbox-universal"
+          type="checkbox"
+          checked={isCheckedAll}
+          id="selectAll"
+          onChange={() => checkAll(!isCheckedAll)}
+        />
       </th>
     </tr>
   );
