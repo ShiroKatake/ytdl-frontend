@@ -17,6 +17,7 @@ export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListPro
         return (
           <li key={format.id}>
             <input
+              data-testid={`radio-${format.id}`}
               type="radio"
               id={format.id}
               name="format"
