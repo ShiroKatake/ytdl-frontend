@@ -3,7 +3,6 @@ interface ICurrentVideoInfoProps {
 }
 
 export const CurrentVideoInfo = ({currentVideoInfo}: ICurrentVideoInfoProps) => {
-
   return (
     <section className="downloading-section">
       <div>

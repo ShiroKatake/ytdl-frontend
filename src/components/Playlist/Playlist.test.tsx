@@ -28,25 +28,19 @@ describe('Testiemonial Page', () => {
     const checkboxSingleOther = screen.getByTestId("checkbox-1");
     const downloadAllButton = screen.getByTestId("downloadButton-selected");
 
-    act(() => {
-      fireEvent.click(checkboxSingleOther);
-    });
+    act(() => { fireEvent.click(checkboxSingleOther) });
     fireEvent.click(downloadAllButton);
 
     expect(mockedDownload).toHaveBeenCalledTimes(1);
     expect(mockedDownload).toHaveBeenCalledWith("{\"0\":false,\"1\":true}");
 
-    act(() => {
-      fireEvent.click(checkboxSingle);
-    });
+    act(() => { fireEvent.click(checkboxSingle) });
     fireEvent.click(downloadAllButton);
 
     expect(mockedDownload).toHaveBeenCalledTimes(2);
     expect(mockedDownload).toHaveBeenCalledWith("{\"0\":true,\"1\":true}");
 
-    act(() => {
-      fireEvent.click(checkboxAll);
-    });
+    act(() => { fireEvent.click(checkboxAll) });
     fireEvent.click(downloadAllButton);
 
     expect(mockedDownload).toHaveBeenCalledTimes(3);

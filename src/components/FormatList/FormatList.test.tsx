@@ -26,9 +26,7 @@ describe('Testiemonial Page', () => {
     
     expect(radioButtonOther.checked).toBeFalsy();
     
-    act(() => {
-      fireEvent.click(radioButtonOther);
-    });
+    act(() => { fireEvent.click(radioButtonOther) });
     expect(radioButton.checked).toBeFalsy();
     expect(radioButtonOther.checked).toBeTruthy();
   });
