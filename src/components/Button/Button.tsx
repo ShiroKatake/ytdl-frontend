@@ -10,7 +10,8 @@ interface IButtonProps {
 
 export const Button = ({ main, children, onClick, ...props }: IButtonProps) => {
   const { buttonIsLoading: isLoading } = useAppContext();
-  
+
+  // prettier-ignore
   return (
     <button
       {...props}

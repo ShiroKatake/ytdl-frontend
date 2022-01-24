@@ -1,9 +1,6 @@
 import "./FormatList.css";
 
-const formats = [
-  { id: "mp4" },
-  { id: "mp3" },
-];
+export const downloadableFormats = ["mp4", "mp3"];
 
 interface IFormatListProps {
   downloadFormat: string | null;
@@ -11,22 +8,29 @@ interface IFormatListProps {
 }
 
 export const FormatList = ({ downloadFormat, setDownloadFormat }: IFormatListProps) => {
+  const setFormat = (format: string) => {
+    if (downloadableFormats.includes(format)) {
+      setDownloadFormat(format);
+    }
+  };
+
+  // prettier-ignore
   return (
     <ul className="format-list">
-      {formats.map((format) => {
+      {downloadableFormats.map((format) => {
         return (
-          <li key={format.id}>
+          <li key={format}>
             <input
-              data-testid={`radio-${format.id}`}
+              data-testid={`radio-${format}`}
               type="radio"
-              id={format.id}
+              id={format}
               name="format"
-              checked={downloadFormat === format.id}
-              value={format.id}
-              onChange={(e) => setDownloadFormat(e.target.value)}
+              checked={downloadFormat === format}
+              value={format}
+              onChange={(e) => setFormat(e.target.value)}
             />
-            <label htmlFor={format.id} className="radio-label">
-              {format.id}
+            <label htmlFor={format} className="radio-label">
+              {format}
             </label>
           </li>
         );

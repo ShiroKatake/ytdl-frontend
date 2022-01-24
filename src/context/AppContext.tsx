@@ -7,7 +7,7 @@ export const useAppContext = () => useContext(AppContext);
 export const AppContextProvider: React.FC = ({ children }) => {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const appContext: IAppContext = {
     inputText,
     buttonIsLoading: isLoading,

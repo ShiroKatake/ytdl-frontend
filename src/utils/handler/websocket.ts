@@ -3,7 +3,7 @@ import { hostname } from "./hostname";
 export const createWebSocketConnection = () => {
   const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
   return new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
-}
+};
 
 export const sendMessage = async (socket: WebSocket, message: string) => {
   console.log(socket);
@@ -17,7 +17,7 @@ export const sendMessage = async (socket: WebSocket, message: string) => {
   } else {
     socket.send(message);
   }
-}
+};
 
 const waitForOpenConnection = (socket: WebSocket) => {
   return new Promise((resolve, reject) => {

@@ -1,20 +1,22 @@
 import "@testing-library/react/dont-cleanup-after-each";
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { AppContextProvider, useAppContext } from '../../context/AppContext';
-import { Button } from './Button';
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { AppContextProvider, useAppContext } from "../../context/AppContext";
+import { Button } from "./Button";
 
 const MockedButtons = () => {
   const { setButtonIsLoading } = useAppContext();
-  return(
+
+  // prettier-ignore
+  return (
     <>
       <Button data-testid="main-button" main onClick={() => {setButtonIsLoading(true)}}>Search</Button>
       <Button data-testid="normal-button" onClick={() => {setButtonIsLoading(true)}}>Download</Button>
     </>
-  )
-}
+  );
+};
 
-describe('Button', () => {
-  render (
+describe("Button", () => {
+  render(
     <AppContextProvider>
       <MockedButtons />
     </AppContextProvider>
@@ -32,7 +34,9 @@ describe('Button', () => {
     const buttonMain = screen.getByText("Search").parentElement as HTMLInputElement;
     const buttonNorm = screen.getByText("Download").parentElement as HTMLInputElement;
 
-    act(() => { fireEvent.click(buttonMain) });
+    act(() => {
+      fireEvent.click(buttonMain);
+    });
     expect(buttonMain.className).toBe("btn-animate main loading");
     expect(buttonNorm.className).toBe("btn-animate loading");
   });

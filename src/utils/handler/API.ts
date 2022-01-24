@@ -14,14 +14,12 @@ export const getInfos = async (url: string) => {
       return data;
     }
   } catch (error: any) {
-    console.log(error.response.data);
+    // Error will be thrown from the server side
+    // console.error(error.response.data);
   }
 };
 
-export const getSuggestions = async (
-  searchQuery: string,
-  setSuggestionsActive: (val: any) => void
-) => {
+export const getSuggestions = async (searchQuery: string, setSuggestionsActive: (val: any) => void) => {
   try {
     const response = await API.get(`/suggestions?search=${searchQuery}`);
     const { data, success } = response.data;
@@ -30,14 +28,12 @@ export const getSuggestions = async (
       return data;
     }
   } catch (error: any) {
-    console.log(error.response.data);
+    // Error will be thrown from the server side
+    // console.error(error.response.data);
   }
 };
 
-export const getPlaylist = async (
-  playlistId: string,
-  setPlaylistActive: (val: any) => void
-) => {
+export const getPlaylist = async (playlistId: string, setPlaylistActive: (val: any) => void) => {
   try {
     const response = await API.get(`/playlist?pl=${playlistId}`);
     const { data, success } = response.data;
@@ -46,27 +42,23 @@ export const getPlaylist = async (
       return data;
     }
   } catch (error: any) {
-    console.log(error.response.data);
+    // Error will be thrown from the server side
+    // console.error(error.response.data);
   }
 };
 
-export const downloadFileFromUrl = async (
-  videoDownloadUrl: string,
-  uid: string,
-  setDownloadProgress: (val: number) => void,
-  fileName: string
-) => {
+export const downloadFileFromUrl = async (videoDownloadUrl: string, uid: string, setDownloadProgress: (val: number) => void, fileName: string) => {
   try {
     await axios({
       url: videoDownloadUrl,
       method: "POST",
       responseType: "blob",
       data: { uid: uid },
-      onDownloadProgress: progressEvent => {
+      onDownloadProgress: (progressEvent) => {
         let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
         setDownloadProgress(percentCompleted);
       },
-    }).then(response => {
+    }).then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       const link = document.createElement("a");
@@ -78,6 +70,7 @@ export const downloadFileFromUrl = async (
       link.remove();
     });
   } catch (error: any) {
-    console.log(error);
+    // Error will be thrown from the server side
+    // console.error(error);
   }
 };

@@ -1,8 +1,4 @@
-export const generateProgressText = (
-  downloadProgress: number,
-  downloaded: number,
-  totalSize: number
-) => {
+export const generateProgressText = (downloadProgress: number, downloaded: number, totalSize: number) => {
   let text = `Fetching . . . ${toMB(downloaded)}MB / `;
   if (downloadProgress > 75) {
     text = "Preparing download . . . ";

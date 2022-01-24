@@ -9,6 +9,7 @@ interface ITextInputProps {
 export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
   const [focus, setFocus] = useState(false);
 
+  // prettier-ignore
   return (
     <div className={`input-container${focus ? " animate" : ""}`}>
       <input

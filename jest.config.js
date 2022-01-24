@@ -26,10 +26,11 @@ module.exports = {
   },
   collectCoverageFrom: [
     "<rootDir>/src/components/**/*.{js,jsx,ts,tsx}",
+    "<rootDir>/src/utils/helper/*.{js,jsx,ts}",
   ],
   coveragePathIgnorePatterns: [
     "<rootDir>/src/components/index.ts",
-    "<rootDir>/src/utils/*.{js,jsx,ts}",
+    "<rootDir>/src/utils/handler/*.{js,jsx,ts}",
   ],
   coverageReporters: ["json", "lcov", "text", "cobertura"],
 };
