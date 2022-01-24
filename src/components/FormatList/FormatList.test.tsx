@@ -10,7 +10,7 @@ const MockedFormatList = () => {
 }
 
 describe('Testiemonial Page', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     render(
       <MockedFormatList />
     );
@@ -18,11 +18,11 @@ describe('Testiemonial Page', () => {
 
   afterEach(cleanup);
 
-  it('should change to the correct download format on click', async () => {
-    const radioButton: HTMLInputElement = await screen.findByTestId("radio-mp3");
+  it('should change to the correct download format on click', () => {
+    const radioButton = screen.getByTestId("radio-mp3") as HTMLInputElement;
     expect(radioButton.checked).toBeTruthy();
 
-    const radioButtonOther: HTMLInputElement = await screen.findByTestId("radio-mp4");
+    const radioButtonOther = screen.getByTestId("radio-mp4") as HTMLInputElement;
     
     expect(radioButtonOther.checked).toBeFalsy();
     

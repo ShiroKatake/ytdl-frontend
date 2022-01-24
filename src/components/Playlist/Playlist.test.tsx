@@ -5,7 +5,7 @@ import mockedPlaylist from '../../mocks/mockedPlaylist';
 const mockedDownload = jest.fn((videoId: string) => videoId);
 
 describe('Testiemonial Page', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     render(
       <Playlist playlistInfo={mockedPlaylist} download={mockedDownload}/>
     );
@@ -14,19 +14,19 @@ describe('Testiemonial Page', () => {
 
   afterEach(cleanup);
 
-  it('should pass the correct video id on click download', async () => {
-    const downloadButton = await screen.findByTestId("downloadButton-0");
+  it('should pass the correct video id on click download', () => {
+    const downloadButton = screen.getByTestId("downloadButton-0");
     fireEvent.click(downloadButton);
 
     expect(mockedDownload).toHaveBeenCalledTimes(1);
     expect(mockedDownload).toHaveBeenCalledWith("videoId0");
   });
 
-  it('should pass the correct video id list on click download-selected', async () => {
-    const checkboxAll = await screen.findByTestId("checkbox-universal");
-    const checkboxSingle = await screen.findByTestId("checkbox-0");
-    const checkboxSingleOther = await screen.findByTestId("checkbox-1");
-    const downloadAllButton = await screen.findByTestId("downloadButton-selected");
+  it('should pass the correct video id list on click download-selected', () => {
+    const checkboxAll = screen.getByTestId("checkbox-universal");
+    const checkboxSingle = screen.getByTestId("checkbox-0");
+    const checkboxSingleOther = screen.getByTestId("checkbox-1");
+    const downloadAllButton = screen.getByTestId("downloadButton-selected");
 
     act(() => {
       fireEvent.click(checkboxSingleOther);
