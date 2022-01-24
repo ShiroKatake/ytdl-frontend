@@ -79,6 +79,8 @@ export const App = () => {
         uid = isUid(event.data);
         if (isJson(event.data)) {
           const downloadProgress = JSON.parse(event.data);
+          //The encoding process is 75% of the download process
+          // The other 25% will be sending to the front-end for download
           setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
           setDownloaded(downloadProgress.downloaded);
           setTotalDownloadSize(downloadProgress.total);
