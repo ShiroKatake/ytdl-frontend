@@ -3,7 +3,7 @@ import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
 import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/handler/API";
-import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils";
+import { createWebSocketConnection, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils";
 import "./App.css";
 
 export const App = () => {
@@ -46,10 +46,10 @@ export const App = () => {
       await download(ytId);
     } else if (isYtList(inputText)) {
       setIsHidden(true);
-      await fetchYt(getPlaylist, inputText, setPlaylistActive);
+      await getPlaylist(inputText, setPlaylistActive);
     } else {
       setIsHidden(true);
-      await fetchYt(getSuggestions, inputText, setSuggestionsActive);
+      await getSuggestions(inputText, setSuggestionsActive);
     }
     setButtonIsLoading(false);
   };
@@ -65,38 +65,37 @@ export const App = () => {
     setButtonIsLoading(true);
     setIsHidden(false);
 
-    const { data, success } = await getInfos(videoUrl);
-    if (success) {
-      const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
-      const socket = createWebSocketConnection();
-      let uid = "";
+    const data = await getInfos(videoUrl);
+    
+    const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
+    const socket = createWebSocketConnection();
+    let uid = "";
 
-      // Listen for messages
-      socket.addEventListener("message", (event) => {
-        uid = isUid(event.data);
-        if (isJson(event.data)) {
-          const downloadProgress = JSON.parse(event.data);
-          setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
-          setDownloaded(downloadProgress.downloaded);
-          setTotalDownloadSize(downloadProgress.total);
-        }
-      });
-      await sendMessage(socket, uid);
+    // Listen for messages
+    socket.addEventListener("message", (event) => {
+      uid = isUid(event.data);
+      if (isJson(event.data)) {
+        const downloadProgress = JSON.parse(event.data);
+        setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
+        setDownloaded(downloadProgress.downloaded);
+        setTotalDownloadSize(downloadProgress.total);
+      }
+    });
+    await sendMessage(socket, uid);
 
-      setCurrentVideoInfo(data.videoDetails);
+    setCurrentVideoInfo(data.videoDetails);
 
-      console.log("Starting download . . .");
-      const filename = `${data.videoDetails.title}.${downloadFormat}`;
-      await downloadFileFromUrl(downloadUrl, uid, setDownloadedPercent, filename);
+    console.log("Starting download . . .");
+    const filename = `${data.videoDetails.title}.${downloadFormat}`;
+    await downloadFileFromUrl(downloadUrl, uid, setDownloadedPercent, filename);
 
-      setButtonIsLoading(false);
-      setTimeoutFunctionId(
-        setTimeout(() => {
-          setIsHidden(true);
-          setDownloadedPercent(0);
-        }, 3000)
-      );
-    }
+    setButtonIsLoading(false);
+    setTimeoutFunctionId(
+      setTimeout(() => {
+        setIsHidden(true);
+        setDownloadedPercent(0);
+      }, 3000)
+    );
   };
 
   return (
