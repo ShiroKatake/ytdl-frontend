@@ -1,5 +1,5 @@
 import axios from "axios";
-import { host } from "./helpers";
+import { host } from "./hostname";
 
 export const API = axios.create({
   baseURL: host,
