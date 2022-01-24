@@ -3,7 +3,7 @@ import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
 import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/handler/API";
-import { createWebSocketConnection, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage } from "./utils";
+import { createWebSocketConnection, getYtID, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage } from "./utils";
 import "./App.css";
 
 export const App = () => {
@@ -41,7 +41,7 @@ export const App = () => {
 
   const checkInputText = async () => {
     setButtonIsLoading(true);
-    const ytId = getYtUrl(inputText);
+    const ytId = getYtID(inputText);
     if (ytId) {
       await download(ytId);
     } else if (isYtList(inputText)) {

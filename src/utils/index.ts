@@ -1,6 +1,6 @@
 export * from "./helper/generateDownloadUrl";
 export * from "./helper/generateProgressText";
-export * from "./helper/getYtUrl";
+export * from "./helper/getYtId";
 export * from "./handler/hostname";
 export * from "./helper/isJson";
 export * from "./helper/isUid";
