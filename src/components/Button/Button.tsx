@@ -15,7 +15,7 @@ export const Button = ({ main, children, onClick, ...props }: IButtonProps) => {
     <button
       {...props}
       disabled={isLoading}
-      className={`btn-animate ${main ? "main" : ""} ${isLoading ? "loading" : ""}`}
+      className={`btn-animate${main ? " main" : ""}${isLoading ? " loading" : ""}`}
       onClick={onClick}
     >
       <span>{children ? children : <IoMdDownload />}</span>
