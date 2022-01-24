@@ -9,7 +9,7 @@ const MockedFormatList = () => {
   )
 }
 
-describe('Testiemonial Page', () => {
+describe('Format List', () => {
   beforeEach(() => {
     render(
       <MockedFormatList />

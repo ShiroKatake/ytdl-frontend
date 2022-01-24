@@ -9,7 +9,7 @@ const MockedTextInput = () => {
   )
 }
 
-describe('Testiemonial Page', () => {
+describe('Search Bar', () => {
   beforeEach(() => {
     render(
       <MockedTextInput />
@@ -18,7 +18,7 @@ describe('Testiemonial Page', () => {
 
   afterEach(cleanup);
 
-  it('should change to the correct download inputText on click', () => {
+  it('should animate on focus and change text when filled in', () => {
     const searchBar = screen.getByTestId("searchBar") as HTMLInputElement;
     const textToFill = { 
       target: { value: "saturn" }

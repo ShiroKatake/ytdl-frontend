@@ -13,7 +13,7 @@ const MockedButtons = () => {
   )
 }
 
-describe('Testiemonial Page', () => {
+describe('Button', () => {
   render (
     <AppContextProvider>
       <MockedButtons />

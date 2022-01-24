@@ -4,7 +4,7 @@ import mockedPlaylist from '../../mocks/mockedPlaylist';
 
 const mockedDownload = jest.fn((videoId: string) => videoId);
 
-describe('Testiemonial Page', () => {
+describe('Playlist', () => {
   beforeEach(() => {
     render(
       <Playlist playlistInfo={mockedPlaylist} download={mockedDownload}/>
