@@ -9,7 +9,7 @@ interface ISuggestionsProps {
 
 export const Suggestions = ({ suggestions, download }: ISuggestionsProps) => {
   return (
-    <section className="suggestions-section">
+    <>
       <h1>Suggestions</h1>
       <div className="grid">
         {suggestions.map((video: any, index: number) => {
@@ -26,6 +26,6 @@ export const Suggestions = ({ suggestions, download }: ISuggestionsProps) => {
           );
         })}
       </div>
-    </section>
+    </>
   );
 };

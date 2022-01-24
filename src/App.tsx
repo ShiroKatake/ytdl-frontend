@@ -105,20 +105,32 @@ export const App = () => {
       }, 3000)
     );
   };
-
+  // prettier-ignore
   return (
     <>
       <section className="search-section">
         <TextInput inputText={inputText} setInputText={setInputText} />
-        <ProgressBar hidden={isHidden} striped variant="success" now={downloadedPercent} label={generateProgressText(downloadedPercent, downloaded, totalDownloadSize)} style={{ width: "100%", height: "30px", lineHeight: "30px" }} />
+        <ProgressBar
+          hidden={isHidden}
+          striped variant="success"
+          now={downloadedPercent}
+          label={generateProgressText(downloadedPercent, downloaded, totalDownloadSize)}
+          style={{ width: "100%", height: "30px", lineHeight: "30px" }}
+        />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
         <Button main onClick={checkInputText}>
           Search
         </Button>
       </section>
-      {currentVideoInfo && <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />}
-      {suggestions.length > 0 && <Suggestions suggestions={suggestions} download={download} />}
-      {playlistInfo.items?.length > 0 && <Playlist playlistInfo={playlistInfo} download={download} />}
+      <section className="downloading-section">
+        {currentVideoInfo && <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />}
+      </section>
+      <section className="suggestions-section">
+        {suggestions.length > 0 && <Suggestions suggestions={suggestions} download={download} />}
+      </section>
+      <section className="playlist-section">
+        {playlistInfo.items?.length > 0 && <Playlist playlistInfo={playlistInfo} download={download} />}
+      </section>
     </>
   );
 };

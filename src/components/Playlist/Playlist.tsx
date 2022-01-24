@@ -60,8 +60,9 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
     // console.log(isChecked);
   }, [isCheckedAll]);
 
+  // prettier-ignore
   return (
-    <section className="playlist-section">
+    <>
       <h1>{playlistInfo.author.name + " - " + playlistInfo.title}</h1>
       <div className="playlist">
         <table>
@@ -88,6 +89,6 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
           </Button>
         </div>
       </div>
-    </section>
+    </>
   );
 };
