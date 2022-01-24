@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
 import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
-import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/API";
+import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/handler/API";
 import { createWebSocketConnection, fetchYt, getYtUrl, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, } from "./utils";
 import "./App.css";
 

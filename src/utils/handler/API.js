@@ -1,8 +1,8 @@
 import axios from "axios";
-import { host } from "./hostname";
+import { hostname } from "./hostname";
 
-export const API = axios.create({
-  baseURL: host,
+const API = axios.create({
+  baseURL: hostname,
   responseType: "json",
 });
 

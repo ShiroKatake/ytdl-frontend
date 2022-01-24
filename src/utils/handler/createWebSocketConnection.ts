@@ -1,6 +1,6 @@
-import { host } from "./hostname";
+import { hostname } from "./hostname";
 
 export const createWebSocketConnection = () => {
   const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
-  return new WebSocket(`${host.replace(/^https?/i, websocketProtocol)}`);
+  return new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
 }
