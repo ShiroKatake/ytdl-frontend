@@ -13,6 +13,6 @@ describe("Generate Download URL", () => {
   it("should not generate urls for any other input", () => {
     expect(() => {
       generateDownloadUrl("differentId", "ma7dfe");
-    }).toThrow("Invalid url.");
+    }).toThrow("Invalid format.");
   });
 });
