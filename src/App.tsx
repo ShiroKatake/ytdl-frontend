@@ -55,13 +55,6 @@ export const App = () => {
   };
 
   const download = async (videoId: string) => {
-    setDownloadedPercent(0);
-    if (timeoutFunctionId) {
-      clearInterval(timeoutFunctionId);
-    }
-    setButtonIsLoading(true);
-    setIsHidden(false);
-
     try {
       const videoUrl = videoId || inputText;
       if (!videoUrl) {
@@ -86,6 +79,14 @@ export const App = () => {
           setTotalDownloadSize(downloadProgress.total);
         }
       });
+
+      setDownloadedPercent(0);
+      if (timeoutFunctionId) {
+        clearInterval(timeoutFunctionId);
+      }
+      setButtonIsLoading(true);
+      setIsHidden(false);
+
       await sendMessage(socket, uid);
 
       setCurrentVideoInfo(data.videoDetails);
