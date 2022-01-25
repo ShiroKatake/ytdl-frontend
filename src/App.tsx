@@ -65,7 +65,7 @@ export const App = () => {
     try {
       const videoUrl = videoId || inputText;
       if (!videoUrl) {
-        throw "Invalid video";
+        throw new Error("Invalid video.");
       }
 
       const data = await getInfos(videoUrl);
@@ -93,8 +93,8 @@ export const App = () => {
       console.log("Starting download . . .");
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
       await downloadFileFromUrl(downloadUrl!, uid, setDownloadedPercent, filename);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error(error.message);
     }
 
     setButtonIsLoading(false);
