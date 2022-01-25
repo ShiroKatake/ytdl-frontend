@@ -30,6 +30,7 @@ jobs:
         run: yarn test
 
   deploy:
+    needs: test
     name: 🚀 Deploy
     runs-on: ubuntu-latest
     steps:
