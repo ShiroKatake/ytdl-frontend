@@ -16,7 +16,7 @@ export const App = () => {
   const [suggestions, setSuggestions] = useState<any>([]);
   const [playlistInfo, setPlaylistInfo] = useState<any>([]);
 
-  const [isHidden, setIsHidden] = useState(true);
+  const [isProgressBarHidden, setIsProgressBarHidden] = useState(true);
   const [downloadedPercent, setDownloadedPercent] = useState(0);
   const [downloaded, setDownloaded] = useState(0);
   const [totalDownloadSize, setTotalDownloadSize] = useState(1);
@@ -45,10 +45,10 @@ export const App = () => {
     if (ytId) {
       await download(ytId);
     } else if (isYtList(inputText)) {
-      setIsHidden(true);
+      setIsProgressBarHidden(true);
       await getPlaylist(inputText, setPlaylistActive);
     } else {
-      setIsHidden(true);
+      setIsProgressBarHidden(true);
       await getSuggestions(inputText, setSuggestionsActive);
     }
     setButtonIsLoading(false);
@@ -69,7 +69,6 @@ export const App = () => {
 
       // Listen for messages
       socket.addEventListener("message", (event) => {
-        uid = isUid(event.data);
         if (isJson(event.data)) {
           const downloadProgress = JSON.parse(event.data);
           //The encoding process is 75% of the download process
@@ -77,6 +76,8 @@ export const App = () => {
           setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
           setDownloaded(downloadProgress.downloaded);
           setTotalDownloadSize(downloadProgress.total);
+        } else {
+          uid = isUid(event.data);
         }
       });
 
@@ -85,7 +86,7 @@ export const App = () => {
         clearInterval(timeoutFunctionId);
       }
       setButtonIsLoading(true);
-      setIsHidden(false);
+      setIsProgressBarHidden(false);
 
       await sendMessage(socket, uid);
 
@@ -101,7 +102,7 @@ export const App = () => {
     setButtonIsLoading(false);
     setTimeoutFunctionId(
       setTimeout(() => {
-        setIsHidden(true);
+        setIsProgressBarHidden(true);
         setDownloadedPercent(0);
       }, 3000)
     );
@@ -112,7 +113,7 @@ export const App = () => {
       <section className="search-section">
         <TextInput inputText={inputText} setInputText={setInputText} />
         <ProgressBar
-          hidden={isHidden}
+          hidden={isProgressBarHidden}
           striped variant="success"
           now={downloadedPercent}
           label={generateProgressText(downloadedPercent, downloaded, totalDownloadSize)}
