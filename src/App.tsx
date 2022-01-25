@@ -74,7 +74,6 @@ export const App = () => {
       const socket = createWebSocketConnection();
       let uid = "";
 
-      // Listen for messages
       socket.addEventListener("message", (event) => {
         uid = isUid(event.data);
         if (isJson(event.data)) {
