@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages 🚀
+name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   test:
-    name: 🔎 Test
+    name: 🚀 Test, Build & Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository @master
@@ -21,30 +21,19 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-          cache: "yarn"
+          cache: "npm"
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
-      - name: Test
-        run: yarn test
+      - name: 🔎 Test
+        run: npm test
 
-  deploy:
-    needs: test
-    name: 🚀 Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository @master
-        uses: actions/checkout@v2
+      - name: 🔧 Build
+        run: npm run build
 
-      - name: Use Node.js v16
-        uses: actions/setup-node@v2
+      - name: 🚀 Deploy
+        uses: peaceiris/actions-gh-pages@v3.7.3
         with:
-          node-version: 16
-          cache: "yarn"
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Deploy
-        run: yarn deploy
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          publish_dir: ./build
