@@ -39,6 +39,12 @@ export const App = () => {
     setCurrentVideoInfo(null);
   };
 
+  const handleKeypress = (event: any) => {
+    if (event.key === "Enter") {
+      checkInputText();
+    }
+  };
+
   const checkInputText = async () => {
     setButtonIsLoading(true);
     const ytId = getYtID(inputText);
@@ -111,7 +117,7 @@ export const App = () => {
   return (
     <>
       <section className="search-section">
-        <TextInput inputText={inputText} setInputText={setInputText} />
+        <TextInput inputText={inputText} setInputText={setInputText} handleKeypress={handleKeypress} />
         <ProgressBar
           hidden={isProgressBarHidden}
           striped variant="success"
