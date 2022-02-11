@@ -2,7 +2,7 @@ import axios from "axios";
 import { hostname } from "./hostname";
 
 const API = axios.create({
-  baseURL: hostname,
+  baseURL: `https://cors-anywhere.herokuapp.com/${hostname}`,
   responseType: "json",
 });
 
