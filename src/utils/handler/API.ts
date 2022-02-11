@@ -42,7 +42,7 @@ export const downloadFileFromUrl = async (videoDownloadUrl: string, uid: string,
   try {
     await axios({
       url: videoDownloadUrl,
-      method: "GET",
+      method: "POST",
       responseType: "blob",
       data: { uid: uid },
       onDownloadProgress: (progressEvent) => {
