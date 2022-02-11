@@ -46,6 +46,31 @@ describe("App", () => {
 
   // prettier-ignore
   it("should render App with correct class depending on main prop", async () => {
+    (mockAxios.get as jest.Mock).mockImplementationOnce(() => Promise.resolve({ data: mockedSuggestions }));
+
+    // Type a search term into the search bar
+    const searchBar = (await screen.findByTestId("searchBar")) as HTMLInputElement;
+    const textToFill = { target: { value: "saturn" } };
+    act(() => { fireEvent.change(searchBar, textToFill) });
+
+    let videoSuggestion = screen.queryByTestId("video0");
+    expect(videoSuggestion).toBeFalsy();
+
+    // Press "Enter"
+    act(() => { fireEvent.keyPress(searchBar, { key: "Enter", charCode: 13 }); });
+    expect(mockAxios.get).toHaveBeenCalledWith(`/suggestions?search=saturn`);
+
+    // Expect 5 videos returned
+    const suggestions = await screen.findAllByTestId(/^video\d$/);
+    expect(suggestions.length).toBe(5);
+
+    // And they're from the data returned
+    videoSuggestion = await screen.findByTestId("video0");
+    expect(videoSuggestion).toBeTruthy();
+  });
+
+  // prettier-ignore
+  it("should render App with correct class depending on main prop", async () => {
     (mockAxios.get as jest.Mock).mockImplementationOnce(() => Promise.resolve({ data: mockedPlaylist }));
     const url = "https://www.youtube.com/playlist?list=PLfKYcXx7bBHJs4wvq-7RrXqcUIJsikexB";
 
