@@ -44,7 +44,7 @@ export const downloadFileFromUrl = async (videoDownloadUrl: string, uid: string,
       url: videoDownloadUrl,
       method: "GET",
       responseType: "blob",
-      params: { uid: uid },
+      data: { uid: uid },
       onDownloadProgress: (progressEvent) => {
         let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
         setDownloadProgress(percentCompleted);
