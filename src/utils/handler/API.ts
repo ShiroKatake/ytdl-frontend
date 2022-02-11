@@ -42,9 +42,9 @@ export const downloadFileFromUrl = async (videoDownloadUrl: string, uid: string,
   try {
     await axios({
       url: videoDownloadUrl,
-      method: "POST",
+      method: "GET",
       responseType: "blob",
-      data: { uid: uid },
+      params: { uid: uid },
       onDownloadProgress: (progressEvent) => {
         let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
         setDownloadProgress(percentCompleted);
