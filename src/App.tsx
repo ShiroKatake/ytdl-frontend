@@ -19,7 +19,6 @@ import {
   generateDownloadUrl,
   generateProgressText,
   sendMessage,
-  hostname,
 } from "./utils";
 import "./App.css";
 
@@ -89,8 +88,7 @@ export const App = () => {
       const data = await getInfos(videoUrl);
 
       const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
-      const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
-      const socket = new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
+      const socket = createWebSocketConnection();
       let uid = "";
 
       // Listen for messages
