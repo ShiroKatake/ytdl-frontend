@@ -11,7 +11,7 @@ describe("Generate Download URL", () => {
   });
 
   it("should generate urls for mp4 when format is not passed", () => {
-    expect(generateDownloadUrl("noFormat", "uid")).toBe(
+    expect(generateDownloadUrl("noFormat")).toBe(
       "http://localhost:4000/download?v=noFormat&format=mp4"
     );
   });
