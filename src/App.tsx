@@ -1,16 +1,35 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
-import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
+import {
+  Button,
+  CurrentVideoInfo,
+  Suggestions,
+  FormatList,
+  Playlist,
+  TextInput,
+} from "./components";
 import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/handler/API";
-import { createWebSocketConnection, getYtID, isJson, isUid, isYtList, generateDownloadUrl, generateProgressText, sendMessage, hostname } from "./utils";
+import {
+  createWebSocketConnection,
+  getYtID,
+  isJson,
+  isUid,
+  isYtList,
+  generateDownloadUrl,
+  generateProgressText,
+  sendMessage,
+  hostname,
+} from "./utils";
 import "./App.css";
 
 export const App = () => {
   const { setButtonIsLoading } = useAppContext();
 
   const [inputText, setInputText] = useState<string>("");
-  const [downloadFormat, setDownloadFormat] = useState<string>(localStorage.getItem("format") || "mp4");
+  const [downloadFormat, setDownloadFormat] = useState<string>(
+    localStorage.getItem("format") || "mp4"
+  );
 
   const [currentVideoInfo, setCurrentVideoInfo] = useState<any>(null);
   const [suggestions, setSuggestions] = useState<any>([]);
@@ -69,7 +88,6 @@ export const App = () => {
 
       const data = await getInfos(videoUrl);
 
-      const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
       const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
       const socket = new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
       let uid = "";
@@ -88,6 +106,8 @@ export const App = () => {
         }
       });
 
+      const downloadUrl = generateDownloadUrl(videoUrl, uid, downloadFormat);
+
       setDownloadedPercent(0);
       if (timeoutFunctionId) {
         clearInterval(timeoutFunctionId);
@@ -101,7 +121,7 @@ export const App = () => {
 
       console.log("Starting download . . .");
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
-      await downloadFileFromUrl(downloadUrl!, uid, setDownloadedPercent, filename);
+      await downloadFileFromUrl(downloadUrl!, setDownloadedPercent, filename);
     } catch (error: any) {
       console.error(error.message);
     }

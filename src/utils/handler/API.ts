@@ -16,7 +16,10 @@ export const getInfos = async (url: string) => {
   }
 };
 
-export const getSuggestions = async (searchQuery: string, setSuggestionsActive: (val: any) => void) => {
+export const getSuggestions = async (
+  searchQuery: string,
+  setSuggestionsActive: (val: any) => void
+) => {
   try {
     const response = await API.get(`/suggestions?search=${searchQuery}`);
     const { data } = response;
@@ -38,15 +41,19 @@ export const getPlaylist = async (playlistId: string, setPlaylistActive: (val: a
   }
 };
 
-export const downloadFileFromUrl = async (videoDownloadUrl: string, uid: string, setDownloadProgress: (val: number) => void, fileName: string) => {
+export const downloadFileFromUrl = async (
+  videoDownloadUrl: string,
+  setDownloadProgress: (val: number) => void,
+  fileName: string
+) => {
   try {
     await axios({
       url: videoDownloadUrl,
-      method: "POST",
+      method: "GET",
       responseType: "blob",
-      data: { uid: uid },
       onDownloadProgress: (progressEvent) => {
-        let percentCompleted = 75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
+        let percentCompleted =
+          75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
         setDownloadProgress(percentCompleted);
       },
     }).then((response) => {
