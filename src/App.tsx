@@ -119,6 +119,7 @@ export const App = () => {
       console.log("Starting download . . .");
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
       await downloadFileFromUrl(downloadUrl!, uid, setDownloadedPercent, filename);
+      socket.close();
     } catch (error: any) {
       console.error(error.message);
     }
