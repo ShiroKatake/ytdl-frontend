@@ -88,6 +88,7 @@ export const App = () => {
 
       const data = await getInfos(videoUrl);
 
+      const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
       const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
       const socket = new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
       let uid = "";
@@ -114,13 +115,12 @@ export const App = () => {
       setIsProgressBarHidden(false);
 
       await sendMessage(socket, uid);
-      const downloadUrl = generateDownloadUrl(videoUrl, uid, downloadFormat);
 
       setCurrentVideoInfo(data.videoDetails);
 
       console.log("Starting download . . .");
       const filename = `${data.videoDetails.title}.${downloadFormat}`;
-      await downloadFileFromUrl(downloadUrl!, setDownloadedPercent, filename);
+      await downloadFileFromUrl(downloadUrl!, uid, setDownloadedPercent, filename);
     } catch (error: any) {
       console.error(error.message);
     }

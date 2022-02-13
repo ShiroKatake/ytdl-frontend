@@ -43,6 +43,7 @@ export const getPlaylist = async (playlistId: string, setPlaylistActive: (val: a
 
 export const downloadFileFromUrl = async (
   videoDownloadUrl: string,
+  uid: string,
   setDownloadProgress: (val: number) => void,
   fileName: string
 ) => {
@@ -51,6 +52,7 @@ export const downloadFileFromUrl = async (
       url: videoDownloadUrl,
       method: "GET",
       responseType: "blob",
+      params: { uid: uid },
       onDownloadProgress: (progressEvent) => {
         let percentCompleted =
           75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;

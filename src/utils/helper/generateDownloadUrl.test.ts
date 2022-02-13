@@ -2,23 +2,23 @@ import { generateDownloadUrl } from "./generateDownloadUrl";
 
 describe("Generate Download URL", () => {
   it("should generate urls for mp3 and mp4", () => {
-    expect(generateDownloadUrl("videoId", "uid", "mp3")).toBe(
-      "http://localhost:4000/download?v=videoId&format=mp3&uid=uid"
+    expect(generateDownloadUrl("videoId", "mp3")).toBe(
+      "http://localhost:4000/download?v=videoId&format=mp3"
     );
-    expect(generateDownloadUrl("differentId", "uid", "mp4")).toBe(
-      "http://localhost:4000/download?v=differentId&format=mp4&uid=uid"
+    expect(generateDownloadUrl("differentId", "mp4")).toBe(
+      "http://localhost:4000/download?v=differentId&format=mp4"
     );
   });
 
   it("should generate urls for mp4 when format is not passed", () => {
     expect(generateDownloadUrl("noFormat", "uid")).toBe(
-      "http://localhost:4000/download?v=noFormat&format=mp4&uid=uid"
+      "http://localhost:4000/download?v=noFormat&format=mp4"
     );
   });
 
   it("should not generate urls for any other input", () => {
     expect(() => {
-      generateDownloadUrl("differentId", "uid", "notValid");
+      generateDownloadUrl("differentId", "notValid");
     }).toThrow("Invalid format.");
   });
 });
