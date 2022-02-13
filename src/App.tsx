@@ -106,8 +106,6 @@ export const App = () => {
         }
       });
 
-      const downloadUrl = generateDownloadUrl(videoUrl, uid, downloadFormat);
-
       setDownloadedPercent(0);
       if (timeoutFunctionId) {
         clearInterval(timeoutFunctionId);
@@ -116,6 +114,7 @@ export const App = () => {
       setIsProgressBarHidden(false);
 
       await sendMessage(socket, uid);
+      const downloadUrl = generateDownloadUrl(videoUrl, uid, downloadFormat);
 
       setCurrentVideoInfo(data.videoDetails);
 
