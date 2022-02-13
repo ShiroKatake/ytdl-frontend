@@ -5,7 +5,7 @@ describe("Generate Download URL", () => {
     expect(generateDownloadUrl("videoId", "uid", "mp3")).toBe(
       "http://localhost:4000/download?v=videoId&format=mp3&uid=uid"
     );
-    expect(generateDownloadUrl("differentId", "mp4", "uid")).toBe(
+    expect(generateDownloadUrl("differentId", "uid", "mp4")).toBe(
       "http://localhost:4000/download?v=differentId&format=mp4&uid=uid"
     );
   });
