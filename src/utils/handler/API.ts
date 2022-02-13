@@ -44,7 +44,7 @@ export const getPlaylist = async (playlistId: string, setPlaylistActive: (val: a
 export const downloadFileFromUrl = async (
   videoDownloadUrl: string,
   uid: string,
-  setDownloadProgress: (val: number) => void,
+  setDownloadedPercent: (val: number) => void,
   fileName: string
 ) => {
   try {
@@ -54,9 +54,8 @@ export const downloadFileFromUrl = async (
       responseType: "blob",
       params: { uid: uid },
       onDownloadProgress: (progressEvent) => {
-        let percentCompleted =
-          75 + Math.round((progressEvent.loaded * 100) / progressEvent.total) * 0.25;
-        setDownloadProgress(percentCompleted);
+        let percentCompleted = 75 + Math.round((progressEvent.loaded / progressEvent.total) * 25);
+        setDownloadedPercent(percentCompleted);
       },
     }).then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));

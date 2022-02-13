@@ -36,8 +36,6 @@ export const App = () => {
 
   const [isProgressBarHidden, setIsProgressBarHidden] = useState(true);
   const [downloadedPercent, setDownloadedPercent] = useState(0);
-  const [downloaded, setDownloaded] = useState(0);
-  const [totalDownloadSize, setTotalDownloadSize] = useState(1);
 
   const [timeoutFunctionId, setTimeoutFunctionId] = useState<NodeJS.Timeout>();
 
@@ -97,9 +95,9 @@ export const App = () => {
           const downloadProgress = JSON.parse(event.data);
           //The encoding process is 75% of the download process
           // The other 25% will be sending to the front-end for download
-          setDownloadedPercent((downloadProgress.downloaded / downloadProgress.total) * 75);
-          setDownloaded(downloadProgress.downloaded);
-          setTotalDownloadSize(downloadProgress.total);
+          setDownloadedPercent(
+            Math.round((downloadProgress.downloaded / downloadProgress.total) * 75)
+          );
         } else {
           uid = isUid(event.data);
         }
@@ -141,7 +139,7 @@ export const App = () => {
           hidden={isProgressBarHidden}
           striped variant="success"
           now={downloadedPercent}
-          label={generateProgressText(downloadedPercent, downloaded, totalDownloadSize)}
+          label={generateProgressText(downloadedPercent)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
