@@ -6,7 +6,7 @@
   "proxy": "https://shirokatake-ytdl-backend.herokuapp.com",
   "dependencies": {
     "@types/he": "^1.1.2",
-    "axios": "^0.26.1",
+    "axios": "^0.27.0",
     "bootstrap": "^5.1.3",
     "react": "^18.0.0",
     "react-bootstrap": "^2.2.3",
