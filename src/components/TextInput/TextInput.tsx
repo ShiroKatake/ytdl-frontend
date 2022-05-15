@@ -4,11 +4,16 @@ import "./TextInput.css";
 interface ITextInputProps {
   inputText: string;
   setInputText: (val: string) => void;
-  handleKeypress: (val: any) => void;
+  onEnter: () => void;
 }
 
-export const TextInput = ({ inputText, setInputText, handleKeypress }: ITextInputProps) => {
+export const TextInput = ({ inputText, setInputText, onEnter }: ITextInputProps) => {
   const [focus, setFocus] = useState(false);
+  const handleKeypress = (event: any) => {
+    if (event.key === "Enter") {
+      onEnter();
+    }
+  };
 
   // prettier-ignore
   return (
