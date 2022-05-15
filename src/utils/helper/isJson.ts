@@ -1,8 +1,9 @@
-export const isJson = (string: string) => {
+export const tryParseJSON = (string: string) => {
+  let res;
   try {
-    JSON.parse(string);
+    res = JSON.parse(string);
   } catch (e) {
     return false;
   }
-  return true;
+  return res;
 };
