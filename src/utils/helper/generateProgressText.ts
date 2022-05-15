@@ -1,10 +1,7 @@
 export const generateProgressText = (downloadedPercent: number) => {
-  let text = "Fetching . . .";
-  if (downloadedPercent > 75) {
-    text = "Preparing download . . .";
-  }
+  let text = `Fetching . . . ${downloadedPercent}%`;
   if (downloadedPercent === 100) {
-    text = "Ready!";
+    text = "Done! Preparing download . . .";
   }
-  return `${text} ${downloadedPercent}%`;
+  return text;
 };
