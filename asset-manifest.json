@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ytdl-frontend/static/css/main.abe81181.css",
-    "main.js": "/ytdl-frontend/static/js/main.0754ce14.js",
+    "main.css": "/ytdl-frontend/static/css/main.2de16473.css",
+    "main.js": "/ytdl-frontend/static/js/main.f1414735.js",
     "static/js/787.c4e7f8f9.chunk.js": "/ytdl-frontend/static/js/787.c4e7f8f9.chunk.js",
     "index.html": "/ytdl-frontend/index.html",
-    "main.abe81181.css.map": "/ytdl-frontend/static/css/main.abe81181.css.map",
-    "main.0754ce14.js.map": "/ytdl-frontend/static/js/main.0754ce14.js.map",
+    "main.2de16473.css.map": "/ytdl-frontend/static/css/main.2de16473.css.map",
+    "main.f1414735.js.map": "/ytdl-frontend/static/js/main.f1414735.js.map",
     "787.c4e7f8f9.chunk.js.map": "/ytdl-frontend/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.abe81181.css",
-    "static/js/main.0754ce14.js"
+    "static/css/main.2de16473.css",
+    "static/js/main.f1414735.js"
   ]
 }
