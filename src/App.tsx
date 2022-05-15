@@ -47,11 +47,12 @@ export const App = () => {
     } else if (isYtList(inputText)) {
       hideProgress(true);
       await getPlaylist(inputText, setPlaylistActive);
+      setButtonIsLoading(false);
     } else {
       hideProgress(true);
       await getSuggestions(inputText, setSuggestionsActive);
+      setButtonIsLoading(false);
     }
-    setButtonIsLoading(false);
   };
 
   const download = async (videoId: string) => {
@@ -107,6 +108,13 @@ export const App = () => {
       });
     } catch (error: any) {
       console.error(error.message);
+      setButtonIsLoading(false);
+      setTimeoutFunctionId(
+        setTimeout(() => {
+          hideProgress(true);
+          setDownloadedPercent(0);
+        }, 5000)
+      );
     }
   };
   // prettier-ignore
@@ -115,8 +123,10 @@ export const App = () => {
       <section className="search-section">
         <TextInput inputText={inputText} setInputText={setInputText} onEnter={checkInputText} />
         <ProgressBar
+          animated={downloadedPercent === 100 ? true : false}
           hidden={progressHidden}
-          striped variant="success"
+          striped
+          variant="success"
           now={downloadedPercent}
           label={generateProgressText(downloadedPercent)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
