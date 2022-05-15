@@ -1,25 +1,9 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { useAppContext } from "./context/AppContext";
-import {
-  Button,
-  CurrentVideoInfo,
-  Suggestions,
-  FormatList,
-  Playlist,
-  TextInput,
-} from "./components";
-import { getInfos, getSuggestions, downloadFileFromUrl, getPlaylist } from "./utils/handler/API";
-import {
-  createWebSocketConnection,
-  getYtID,
-  isJson,
-  isUid,
-  isYtList,
-  generateDownloadUrl,
-  generateProgressText,
-  sendMessage,
-} from "./utils";
+import { Button, CurrentVideoInfo, Suggestions, FormatList, Playlist, TextInput } from "./components";
+import { getInfos, getSuggestions, getPlaylist } from "./utils/handler/API";
+import { createWebSocketConnection, getYtID, tryParseJSON, isYtList, generateProgressText, downloadFromLink } from "./utils";
 import "./App.css";
 
 export const App = () => {
@@ -34,7 +18,7 @@ export const App = () => {
   const [suggestions, setSuggestions] = useState<any>([]);
   const [playlistInfo, setPlaylistInfo] = useState<any>([]);
 
-  const [isProgressBarHidden, setIsProgressBarHidden] = useState(true);
+  const [progressHidden, hideProgress] = useState(true);
   const [downloadedPercent, setDownloadedPercent] = useState(0);
 
   const [timeoutFunctionId, setTimeoutFunctionId] = useState<NodeJS.Timeout>();
@@ -55,22 +39,16 @@ export const App = () => {
     setCurrentVideoInfo(null);
   };
 
-  const handleKeypress = (event: any) => {
-    if (event.key === "Enter") {
-      checkInputText();
-    }
-  };
-
   const checkInputText = async () => {
     setButtonIsLoading(true);
     const ytId = getYtID(inputText);
     if (ytId) {
       await download(ytId);
     } else if (isYtList(inputText)) {
-      setIsProgressBarHidden(true);
+      hideProgress(true);
       await getPlaylist(inputText, setPlaylistActive);
     } else {
-      setIsProgressBarHidden(true);
+      hideProgress(true);
       await getSuggestions(inputText, setSuggestionsActive);
     }
     setButtonIsLoading(false);
@@ -83,69 +61,68 @@ export const App = () => {
         throw new Error("Invalid video.");
       }
 
-      const data = await getInfos(videoUrl);
-
-      const downloadUrl = generateDownloadUrl(videoUrl, downloadFormat);
-      const socket = createWebSocketConnection();
-      let uid = "";
-
-      // Listen for messages
-      socket.addEventListener("message", (event) => {
-        if (isJson(event.data)) {
-          const downloadProgress = JSON.parse(event.data);
-          //The encoding process is 75% of the download process
-          // The other 25% will be sending to the front-end for download
-          setDownloadedPercent(
-            Math.round((downloadProgress.downloaded / downloadProgress.total) * 75)
-          );
-        } else {
-          uid = isUid(event.data);
-        }
-      });
-
       setDownloadedPercent(0);
       if (timeoutFunctionId) {
         clearInterval(timeoutFunctionId);
       }
       setButtonIsLoading(true);
-      setIsProgressBarHidden(false);
+      hideProgress(false);
 
-      await sendMessage(socket, uid);
-
+      const data = await getInfos(videoUrl);
       setCurrentVideoInfo(data.videoDetails);
 
       console.log("Starting download . . .");
-      const filename = `${data.videoDetails.title}.${downloadFormat}`;
-      await downloadFileFromUrl(downloadUrl!, uid, setDownloadedPercent, filename);
-      socket.close();
+
+      const socket = createWebSocketConnection();
+
+      socket.addEventListener("open", () => {
+        const downloadData = {
+          v: videoUrl,
+          format: downloadFormat,
+        }
+        socket.send(JSON.stringify(downloadData));
+      });
+
+      socket.addEventListener("message", (event) => {
+        const downloadProgress = tryParseJSON(event.data);
+        if (downloadProgress) {
+          setDownloadedPercent(
+            Math.round((downloadProgress.downloaded / downloadProgress.total) * 100)
+          );
+        } else {
+          const url = window.URL.createObjectURL(new Blob([event.data]));
+          const filename = `${data.videoDetails.title}.${downloadFormat}`;
+          socket.close();
+
+          downloadFromLink(url, filename);
+
+          setButtonIsLoading(false);
+          setTimeoutFunctionId(
+            setTimeout(() => {
+              hideProgress(true);
+              setDownloadedPercent(0);
+            }, 3000)
+          );
+        }
+      });
     } catch (error: any) {
       console.error(error.message);
     }
-
-    setButtonIsLoading(false);
-    setTimeoutFunctionId(
-      setTimeout(() => {
-        setIsProgressBarHidden(true);
-        setDownloadedPercent(0);
-      }, 3000)
-    );
   };
   // prettier-ignore
   return (
     <>
       <section className="search-section">
-        <TextInput inputText={inputText} setInputText={setInputText} handleKeypress={handleKeypress} />
+        <TextInput inputText={inputText} setInputText={setInputText} onEnter={checkInputText} />
         <ProgressBar
-          hidden={isProgressBarHidden}
+          hidden={progressHidden}
           striped variant="success"
           now={downloadedPercent}
           label={generateProgressText(downloadedPercent)}
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
-        <Button main onClick={checkInputText}>
-          Search
-        </Button>
+        <Button main onClick={checkInputText}>Search</Button>
       </section>
       <section className="downloading-section">
         {currentVideoInfo && <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />}
