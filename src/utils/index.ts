@@ -1,3 +1,4 @@
+export * from "./helper/downloadFromLink";
 export * from "./helper/generateDownloadUrl";
 export * from "./helper/generateProgressText";
 export * from "./helper/getYtId";

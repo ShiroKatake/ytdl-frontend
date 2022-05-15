@@ -40,36 +40,3 @@ export const getPlaylist = async (playlistId: string, setPlaylistActive: (val: a
     console.error(error.response.data);
   }
 };
-
-export const downloadFileFromUrl = async (
-  videoDownloadUrl: string,
-  uid: string,
-  setDownloadedPercent: (val: number) => void,
-  fileName: string
-) => {
-  try {
-    await axios({
-      url: videoDownloadUrl,
-      method: "GET",
-      responseType: "blob",
-      params: { uid: uid },
-      onDownloadProgress: (progressEvent) => {
-        let percentCompleted = 75 + Math.round((progressEvent.loaded / progressEvent.total) * 25);
-        setDownloadedPercent(percentCompleted);
-      },
-    }).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-
-      link.click();
-      link.remove();
-    });
-  } catch (error: any) {
-    // Error will be thrown from the server side
-    // console.error(error);
-  }
-};
