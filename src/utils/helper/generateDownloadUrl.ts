@@ -1,9 +1,9 @@
 import { downloadableFormats } from "../../components";
-import { hostname } from "../handler/hostname";
+import { getHostname } from "./getHostname";
 
 export const generateDownloadUrl = (videoId: string, format = "mp4") => {
   if (!downloadableFormats.includes(format)) {
     throw new Error("Invalid format.");
   }
-  return `${hostname}/download?v=${videoId}&format=${format}`;
+  return `${getHostname()}/download?v=${videoId}&format=${format}`;
 };
