@@ -4,7 +4,7 @@ import { TextInput } from "./TextInput";
 
 const MockedTextInput = () => {
   const [inputText, setInputText] = useState("mp3");
-  return <TextInput inputText={inputText} setInputText={setInputText} />;
+  return <TextInput inputText={inputText} setInputText={setInputText} onEnter={() => { }} />;
 };
 
 describe("Search Bar", () => {

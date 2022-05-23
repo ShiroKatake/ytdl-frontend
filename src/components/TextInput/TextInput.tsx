@@ -4,10 +4,16 @@ import "./TextInput.css";
 interface ITextInputProps {
   inputText: string;
   setInputText: (val: string) => void;
+  onEnter: () => void;
 }
 
-export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
+export const TextInput = ({ inputText, setInputText, onEnter }: ITextInputProps) => {
   const [focus, setFocus] = useState(false);
+  const handleKeypress = (event: any) => {
+    if (event.key === "Enter") {
+      onEnter();
+    }
+  };
 
   // prettier-ignore
   return (
@@ -24,6 +30,7 @@ export const TextInput = ({ inputText, setInputText }: ITextInputProps) => {
         onFocus={() => setFocus(true)}
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
+        onKeyPress={handleKeypress}
         autoFocus
       />
     </div>

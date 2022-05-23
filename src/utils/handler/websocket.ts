@@ -6,7 +6,6 @@ export const createWebSocketConnection = () => {
 };
 
 export const sendMessage = async (socket: WebSocket, message: string) => {
-  console.log(socket);
   if (socket.readyState !== socket.OPEN) {
     try {
       await waitForOpenConnection(socket);

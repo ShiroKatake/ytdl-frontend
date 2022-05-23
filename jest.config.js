@@ -10,19 +10,12 @@ module.exports = {
     "<rootDir>/public/",
   ],
   moduleNameMapper: {
-    '^.+\\.(css|less)$': '<rootDir>/src/mocks/mockCSS.js'
-  },
-  coverageThreshold: {
-    global: {
-      statements: 90,
-      branches: 90,
-      functions: 90,
-      lines: 90,
-    },
+    '^.+\\.(css|less)$': '<rootDir>/src/__mocks__/mockCSS.js'
   },
   collectCoverageFrom: [
     "<rootDir>/src/components/**/*.{js,jsx,ts,tsx}",
     "<rootDir>/src/utils/helper/*.{js,jsx,ts}",
+    "<rootDir>/src/App.tsx",
   ],
   coveragePathIgnorePatterns: [
     "<rootDir>/src/components/index.ts",

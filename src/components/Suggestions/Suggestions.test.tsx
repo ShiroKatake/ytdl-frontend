@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Suggestions } from "./Suggestions";
-import mockedSuggestions from "../../mocks/mockedSuggestions";
+import mockedSuggestions from "../../__mocks__/mockedSuggestions";
 
 const mockedDownload = jest.fn((videoId: string) => videoId);
 
