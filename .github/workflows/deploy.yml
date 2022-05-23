@@ -47,7 +47,7 @@ jobs:
 
       - name: 🔧 Build
         id: build
-        run: npm run build
+        run: npm run-script build
         env:
           CI: false
           FE_HOSTNAME_PROD: ${{ secrets.FE_HOSTNAME_PROD }}
