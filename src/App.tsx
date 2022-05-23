@@ -56,6 +56,7 @@ export const App = () => {
     }
   };
 
+  /* istanbul ignore next */
   const download = async (videoId: string) => {
     try {
       const videoUrl = videoId || inputText;
