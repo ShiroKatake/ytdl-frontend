@@ -8,6 +8,7 @@ import "./App.css";
 
 export const App = () => {
   const { setButtonIsLoading } = useAppContext();
+  console.log(window.location.hostname);
 
   const [inputText, setInputText] = useState<string>("");
   const [downloadFormat, setDownloadFormat] = useState<string>(
@@ -55,6 +56,7 @@ export const App = () => {
     }
   };
 
+  /* istanbul ignore next */
   const download = async (videoId: string) => {
     try {
       const videoUrl = videoId || inputText;

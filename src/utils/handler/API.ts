@@ -1,8 +1,8 @@
 import axios from "axios";
-import { hostname } from "./hostname";
+import { getHostname } from "../helper/getHostname";
 
 const API = axios.create({
-  baseURL: hostname,
+  baseURL: getHostname(),
   responseType: "json",
 });
 
