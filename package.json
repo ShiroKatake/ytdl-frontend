@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "http://ShiroKatake.github.io/ytdl-frontend",
-  "proxy": "https://shirokatake-ytdl-backend.herokuapp.com",
   "dependencies": {
     "@types/he": "^1.1.2",
     "axios": "^0.27.2",
