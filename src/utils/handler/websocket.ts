@@ -1,8 +1,8 @@
-import { hostname } from "./hostname";
+import { getHostname } from "../helper/getHostname";
 
 export const createWebSocketConnection = () => {
   const websocketProtocol = window.location.hostname === "localhost" ? "ws" : "wss";
-  return new WebSocket(`${hostname.replace(/^https?/i, websocketProtocol)}`);
+  return new WebSocket(`${getHostname().replace(/^https?/i, websocketProtocol)}`);
 };
 
 export const sendMessage = async (socket: WebSocket, message: string) => {
@@ -30,7 +30,7 @@ const waitForOpenConnection = (socket: WebSocket) => {
         reject(new Error("Maximum number of attempts exceeded"));
       } else if (socket.readyState === socket.OPEN) {
         clearInterval(interval);
-        resolve(() => {});
+        resolve(() => { });
       }
       currentAttempt++;
     }, intervalTime);
