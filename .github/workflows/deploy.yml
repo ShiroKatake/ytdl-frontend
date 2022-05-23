@@ -15,6 +15,7 @@ jobs:
   deploy:
     name: 🚀 Test, Build & Deploy
     runs-on: ubuntu-latest
+    environment: github-pages
     outputs:
       install_outcome: ${{ steps.installOutcome.outputs.stepOutcome }}
       test_outcome: ${{ steps.testOutcome.outputs.stepOutcome }}
@@ -49,6 +50,12 @@ jobs:
         run: npm run build
         env:
           CI: false
+          FE_HOSTNAME_PROD: ${{ secrets.FE_HOSTNAME_PROD }}
+          BE_HOSTNAME_PROD: ${{ secrets.BE_HOSTNAME_PROD }}
+          FE_HOSTNAME_TEST: ${{ secrets.FE_HOSTNAME_TEST }}
+          BE_HOSTNAME_TEST: ${{ secrets.BE_HOSTNAME_TEST }}
+          FE_HOSTNAME_LOCAL: ${{ secrets.FE_HOSTNAME_LOCAL }}
+          BE_HOSTNAME_LOCAL: ${{ secrets.BE_HOSTNAME_LOCAL }}
       - id: buildOutcome
         if: always()
         run: echo "::set-output name=stepOutcome::${{ steps.build.outcome }}" 
