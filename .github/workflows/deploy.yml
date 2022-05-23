@@ -15,7 +15,6 @@ jobs:
   deploy:
     name: 🚀 Test, Build & Deploy
     runs-on: ubuntu-latest
-    environment: github-pages
     outputs:
       install_outcome: ${{ steps.installOutcome.outputs.stepOutcome }}
       test_outcome: ${{ steps.testOutcome.outputs.stepOutcome }}
