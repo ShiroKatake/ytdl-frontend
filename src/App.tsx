@@ -8,7 +8,6 @@ import "./App.css";
 
 export const App = () => {
   const { setButtonIsLoading } = useAppContext();
-  console.log(window.location.hostname);
 
   const [inputText, setInputText] = useState<string>("");
   const [downloadFormat, setDownloadFormat] = useState<string>(
