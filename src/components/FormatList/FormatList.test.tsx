@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { FormatList } from "./FormatList";
 
@@ -8,24 +8,24 @@ const MockedFormatList = () => {
 };
 
 describe("Format List", () => {
-  beforeEach(() => {
+  it("should have mp3 checked as default", () => {
     render(<MockedFormatList />);
-  });
+    const mp3RadioButton = screen.getByTestId("radio-mp3") as HTMLInputElement;
+    const mp4RadioButton = screen.getByTestId("radio-mp4") as HTMLInputElement;
 
-  afterEach(cleanup);
+    expect(mp3RadioButton.checked).toBeTruthy();
+    expect(mp4RadioButton.checked).toBeFalsy();
+  });
 
   it("should change to the correct download format on click", () => {
-    const radioButton = screen.getByTestId("radio-mp3") as HTMLInputElement;
-    expect(radioButton.checked).toBeTruthy();
+    render(<MockedFormatList />);
+    const mp3RadioButton = screen.getByTestId("radio-mp3") as HTMLInputElement;
+    const mp4RadioButton = screen.getByTestId("radio-mp4") as HTMLInputElement;
 
-    const radioButtonOther = screen.getByTestId("radio-mp4") as HTMLInputElement;
+    fireEvent.click(mp4RadioButton);
 
-    expect(radioButtonOther.checked).toBeFalsy();
-
-    act(() => {
-      fireEvent.click(radioButtonOther);
-    });
-    expect(radioButton.checked).toBeFalsy();
-    expect(radioButtonOther.checked).toBeTruthy();
+    expect(mp3RadioButton.checked).toBeFalsy();
+    expect(mp4RadioButton.checked).toBeTruthy();
   });
+  cleanup();
 });

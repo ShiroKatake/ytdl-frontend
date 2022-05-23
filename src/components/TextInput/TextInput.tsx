@@ -17,7 +17,7 @@ export const TextInput = ({ inputText, setInputText, onEnter }: ITextInputProps)
 
   // prettier-ignore
   return (
-    <div className={`input-container${focus ? " animate" : ""}`}>
+    <div data-testid="searchBarContainer" className={`input-container${focus ? " animate" : ""}`}>
       <input
         data-testid="searchBar"
         type="text"

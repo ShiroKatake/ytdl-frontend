@@ -1,4 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { TextInput } from "./TextInput";
 
@@ -8,28 +8,30 @@ const MockedTextInput = () => {
 };
 
 describe("Search Bar", () => {
-  beforeEach(() => {
+  it("should have correct text when filled in", () => {
     render(<MockedTextInput />);
-  });
-
-  afterEach(cleanup);
-
-  it("should animate on focus and change text when filled in", () => {
     const searchBar = screen.getByTestId("searchBar") as HTMLInputElement;
     const textToFill = {
       target: { value: "saturn" },
     };
 
-    act(() => {
-      fireEvent.change(searchBar, textToFill);
-    });
-
-    expect(searchBar.parentElement?.className).toBe("input-container animate");
+    fireEvent.change(searchBar, textToFill);
     expect(searchBar.value).toBe("saturn");
-
-    act(() => {
-      fireEvent.blur(searchBar);
-    });
-    expect(searchBar.parentElement?.className).toBe("input-container");
   });
+
+  it("should animate on focus", () => {
+    render(<MockedTextInput />);
+    const searchBar = screen.getByTestId("searchBar") as HTMLInputElement;
+    const searchBarContainer = screen.getByTestId("searchBarContainer");
+    const textToFill = {
+      target: { value: "saturn" },
+    };
+
+    fireEvent.change(searchBar, textToFill);
+    expect(searchBarContainer.className).toBe("input-container animate");
+
+    fireEvent.blur(searchBar);
+    expect(searchBarContainer.className).toBe("input-container");
+  });
+  cleanup();
 });

@@ -64,7 +64,7 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
   return (
     <>
       <h1>{playlistInfo.author.name + " - " + playlistInfo.title}</h1>
-      <div className="playlist">
+      <div data-testid="playlist" className="playlist">
         <table>
           <thead>
             <PlaylistHeader
@@ -84,7 +84,7 @@ export const Playlist = ({ playlistInfo, download }: IPlaylistProps) => {
           </tbody>
         </table>
         <div className="download-selected-btn">
-          <Button data-testid="downloadButton-selected" onClick={() => download(JSON.stringify(isChecked))}>
+          <Button data-testid="downloadSelectedButton" onClick={() => download(JSON.stringify(isChecked))}>
             Download Selected
           </Button>
         </div>

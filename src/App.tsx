@@ -133,7 +133,7 @@ export const App = () => {
           style={{ width: "100%", height: "30px", lineHeight: "30px" }}
         />
         <FormatList downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} />
-        <Button main onClick={checkInputText}>Search</Button>
+        <Button data-testid="searchButton" main onClick={checkInputText}>Search</Button>
       </section>
       <section className="downloading-section">
         {currentVideoInfo && <CurrentVideoInfo currentVideoInfo={currentVideoInfo} />}

@@ -1,39 +1,39 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Suggestions } from "./Suggestions";
-import mockedSuggestions from "../../__mocks__/mockedSuggestions";
+import mockedSuggestions from "./mock/mockedSuggestions";
 
 const mockedDownload = jest.fn((videoId: string) => videoId);
+const setupRender = () => {
+  render(<Suggestions suggestions={mockedSuggestions} download={mockedDownload} />);
+  mockedDownload.mockClear();
+}
 
 describe("Suggestions", () => {
-  beforeEach(() => {
-    render(<Suggestions suggestions={mockedSuggestions} download={mockedDownload} />);
-    mockedDownload.mockClear();
-  });
-
   afterEach(cleanup);
 
   it("should render the correct amount of videos", () => {
-    const suggestions = screen.getAllByTestId(/^video\d$/);
-    expect(suggestions.length).toBe(5);
+    setupRender();
+    const videoSuggestions = screen.getAllByTestId(/^video-\d$/);
+    expect(videoSuggestions.length).toBe(5);
   });
 
-  it("should open the correct video on click to watch", () => {
-    const videoToDownload = screen.getByTestId("video0");
-    const watchUrl = videoToDownload.querySelector("a") as HTMLAnchorElement;
-    expect(watchUrl.href).toBe("https://youtube.com/watch?v=videoId0");
+  it("should contain the correct url", () => {
+    setupRender();
+    const videoUrl = screen.getByTestId("url-1") as HTMLAnchorElement;
+    expect(videoUrl.href).toBe("https://youtube.com/watch?v=videoId1");
   });
 
   it("should contain the correct title", () => {
-    const videoToDownload = screen.getByTestId("video0");
-    const videoTitle = videoToDownload.querySelector(".title") as HTMLDivElement;
-    expect(videoTitle.textContent).toBe('Sleeping At Last - Sleeping At Last - "Saturn" (Official Music Video)');
+    setupRender();
+    const videoTitle = screen.getByTestId("title-1");
+    expect(videoTitle.textContent).toBe("National Geographic - Saturn 101 | National Geographic");
   });
 
-  it("should pass the correct video id on click download", () => {
+  it("should pass the correct video id on download", () => {
+    setupRender();
     const downloadButton = screen.getByTestId("downloadButton-video0");
     fireEvent.click(downloadButton);
 
-    expect(mockedDownload).toHaveBeenCalledTimes(1);
     expect(mockedDownload).toHaveBeenCalledWith("videoId0");
   });
 });
