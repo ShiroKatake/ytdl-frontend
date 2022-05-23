@@ -4,4 +4,4 @@ export const processEnv: any = (name: string) => {
     throw Error(`Environment variable not found: ${name}`);
   }
   return env;
-} 
+}
