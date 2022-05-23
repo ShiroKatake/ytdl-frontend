@@ -4,8 +4,8 @@ export const getHostname = () => {
   const environments = ["LOCAL", "TEST", "PROD"];
 
   for (const environment of environments) {
-    if (window.location.hostname === processEnv(`FE_HOSTNAME_${environment}`)) {
-      return processEnv(`BE_HOSTNAME_${environment}`);
+    if (window.location.hostname === processEnv(`REACT_APP_FE_HOSTNAME_${environment}`)) {
+      return processEnv(`REACT_APP_BE_HOSTNAME_${environment}`);
     }
   }
 
