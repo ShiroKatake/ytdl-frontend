@@ -9,6 +9,12 @@ interface ITextInputProps {
 
 export const TextInput = ({ inputText, setInputText, onEnter }: ITextInputProps) => {
   const [focus, setFocus] = useState(false);
+
+  const handleOnFocus = (event: any) => {
+    event.target.select();
+    setFocus(true);
+  }
+
   const handleKeypress = (event: any) => {
     if (event.key === "Enter") {
       onEnter();
@@ -27,7 +33,7 @@ export const TextInput = ({ inputText, setInputText, onEnter }: ITextInputProps)
         spellCheck={false}
         autoComplete="off"
         onBlur={() => setFocus(false)}
-        onFocus={() => setFocus(true)}
+        onFocus={handleOnFocus}
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         onKeyPress={handleKeypress}
